@@ -1,0 +1,12 @@
+<div class="details">
+  <h2 class="title-primary">Agenda personal simplificada</h2>
+  <div class="cards">
+    <div *ngFor="let card of cards" class="card">
+      <div>
+        <img [src]="card.urlImg" />
+        <h3 class="title">{{ card.title }}</h3>
+        <p>{{ card.text }}</p>
+      </div>
+    </div>
+  </div>
+</div>

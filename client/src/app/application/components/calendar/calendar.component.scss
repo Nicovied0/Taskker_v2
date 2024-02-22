@@ -1,0 +1,118 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+  }
+  
+  .navigator {
+    margin-right: 10px;
+  }
+  
+  .content {
+    flex-grow: 1;
+  }
+  
+  .buttons {
+    margin-bottom: 10px;
+    display: inline-flex;
+  }
+  
+  button {
+    background-color: #3c78d8;
+    color: white;
+    border: 0;
+    padding: 0.5rem 1rem;
+    width: 80px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 1px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+  }
+  
+  button:last-child {
+    margin-right: 0;
+  }
+  
+  button.selected {
+    background-color: #1c4587;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  button:first-child {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+  }
+  
+  button:last-child {
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+  
+  button:hover {
+    background-color: #2f66c4;
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);
+  }
+  
+  button:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media screen and (max-width: 800px) {
+    .container {
+      display: flex;
+      flex-direction: column-reverse;
+    }
+    .navigator {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+    :host ::ng-deep .navigator_default_main {
+      display: flex;
+      margin: 1rem 0;
+      width: 100% !important;
+      justify-content: center;
+      height: auto !important;
+      flex-wrap: wrap;
+    }
+    :host ::ng-deep .navigator_default_month {
+     border: solid 10px rgba(255, 255, 255, 0);
+     background-color: rgba(128, 128, 128, 0.123); 
+      margin:5px
+    }
+  }
+  input[type="checkbox"] {
+    vertical-align: middle;
+    position: relative; 
+
+    bottom: 1px;
+  }
+  
+  .row {
+    margin-top: 2px;
+    white-space: nowrap;
+    display: block;
+  }
+  
+  :host ::ng-deep .calendar_default_colheader_inner {
+    padding: 5px;
+  }
+  
+  :host ::ng-deep .calendar_default_rowheader_inner {
+    padding: 5px;
+  }
+  
+  :host ::ng-deep .navigator_default_main,
+  :host ::ng-deep .navigator_default_title,
+  :host ::ng-deep .navigator_default_titleleft,
+  :host ::ng-deep .navigator_default_titleright,
+  :host ::ng-deep .navigator_default_line {
+    border: 0px;
+    background: #ffffff;
+  }
+  

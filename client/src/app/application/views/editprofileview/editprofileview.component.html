@@ -1,0 +1,148 @@
+<div>
+  <app-nav></app-nav>
+  <div [ngClass]="{ container: isLargeScreen }" class="mt-4">
+    <div class="row">
+      <div class="col-md-6 rows">
+        <div class="card">
+          <div class="card-header">Tu perfil</div>
+          <div class="card-body">
+            <div class="image_div">
+              <img [src]="user?.image" class="image_profile" />
+            </div>
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                [ngModel]="user?.name"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                [ngModel]="user?.email"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="role">Role</label>
+              <input
+                type="email"
+                class="form-control"
+                id="role"
+                [ngModel]="user?.role"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="role">Phone</label>
+              <input
+                type="number"
+                class="form-control"
+                id="role"
+                [ngModel]="user?.phone"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="role">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                [ngModel]="user?.description"
+                disabled
+              ></textarea>
+            </div>
+            <button class="btn btn-primary buttons" (click)="showEditForm()">
+              editar
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" *ngIf="showEdit">
+        <div class="card">
+          <div class="card-header">Editar perfil</div>
+          <div class="card-body">
+            <div class="form-group dropfile">
+              <label
+                for="editImage"
+                class="imagenEdit"
+                *ngIf="!editedUser.imagen"
+                >Imagen de perfil</label
+              >
+              <input
+                type="file"
+                class="form-control-file"
+                id="editImage"
+                class="btn imagenEditInput btn btn-lg"
+                (change)="onProfileImageSelected($event)"
+                *ngIf="!editedUser.imagen"
+              />
+              <div class="imageDiv">
+                <button
+                  *ngIf="editedUser.imagen"
+                  (click)="deleteImage()"
+                  class="delete-button"
+                >
+                  x
+                </button>
+                <img
+                  [src]="editedUser.image"
+                  *ngIf="editedUser.image"
+                  class="newImage"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="editName">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="editName"
+                [(ngModel)]="editedUser.name"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editEmail">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="editEmail"
+                disabled
+                [ngModel]="editedUser.email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editEmail">Phone</label>
+              <input
+                type="number"
+                class="form-control"
+                id="editPhone"
+                [(ngModel)]="editedUser.phone"
+              />
+            </div>
+            <div class="form-group">
+              <label for="editEmail">Description</label>
+              <textarea
+                type="text"
+                class="form-control"
+                id="editDescription"
+                [(ngModel)]="editedUser.description"
+              ></textarea>
+            </div>
+            <button class="btn btn-primary buttons" (click)="saveChanges()">
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

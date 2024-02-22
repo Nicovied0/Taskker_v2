@@ -1,0 +1,109 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+html,
+iframe,
+legend,
+li,
+ol,
+p,
+pre,
+textarea,
+ul {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  padding: 0;
+  vertical-align: baseline;
+  scroll-behavior: smooth !important;
+  border: 0;
+  font-size: 100%;
+  font-style: inherit;
+  outline: 0;
+}
+
+p,
+body,
+td {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+}
+body {
+  padding: 0px;
+  margin: 0px;
+  background-color: #ffffff;
+}
+a {
+  color: #1155a3;
+}
+.space {
+  margin: 10px 0px 10px 0px;
+}
+/* You can add global styles to this file, and also import other style files */
+
+body .calendar_default_event_inner {
+  background: #2e78d6;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 10pt;
+  padding: 5px;
+  opacity: 0.8;
+}
+
+body .month_default_event_inner {
+  background: #2e78d6;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 10pt;
+  padding: 5px;
+  opacity: 0.8;
+}
+.main{
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --shark-50: #f4f6f7;
+  --shark-100: #e3e7ea;
+  --shark-200: #cbd3d6;
+  --shark-300: #a6b4ba;
+  --shark-400: #7a8c96;
+  --shark-500: #5f717b;
+  --shark-600: #515f69;
+  --shark-700: #465058;
+  --shark-800: #3e454c;
+  --shark-900: #373d42;
+  --shark-950: #212529;
+  --shark-1000: #282828;
+  --orange: #ec6907;
+  --primary-color: #3b82f6;
+  --secondary-color: #279efe;
+  --tertiary-color: #1d8deb;
+  --fourtiary-color: #005bb1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

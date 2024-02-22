@@ -1,0 +1,17 @@
+<div *ngIf="showLoader === false">
+  <div class="bodyDashboard">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<div *ngIf="showLoader === true">
+  <div class="cuerpo">
+    <app-nav></app-nav>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+  </div>
+</div>
+
+<div *ngIf="showLoader == null">
+  <app-loader></app-loader>
+</div>

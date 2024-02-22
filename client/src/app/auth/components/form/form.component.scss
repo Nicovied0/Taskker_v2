@@ -1,0 +1,121 @@
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  padding: 60px;
+  background-color: var(--shark-100);
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.auth-form__title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-form__group {
+  margin-bottom: 15px;
+}
+
+.auth-form__label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.auth-form__input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.auth-form__button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.auth-form__button:hover {
+  background-color: #073e97;
+}
+
+.auth-form__switch {
+  text-align: center;
+}
+
+.auth-form__link {
+  cursor: pointer;
+  color: #007bff;
+}
+
+@media screen and (max-width: 400px) {
+  .auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 30px;
+  }
+}
+
+.loader {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+}
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  inset: 0px;
+  border-radius: 50%;
+  border: 5px solid var(--shark-50);
+  animation: prixClipFix 2s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes prixClipFix {
+  0% {
+    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
+  }
+  25% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
+  }
+  75% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+  }
+}
+.div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

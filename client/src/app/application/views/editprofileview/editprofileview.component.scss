@@ -1,0 +1,58 @@
+.row {
+  margin: 10px;
+}
+
+.dorpfile {
+  display: flex;
+}
+.imageDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0 0 0;
+}
+.image_div {
+  text-align: center;
+}
+.image_profile {
+  border-radius: 100%;
+  object-fit: cover;
+  height: 100px;
+  width: 100px;
+}
+.newImage {
+  height: 80px;
+  border-radius: 100%;
+  margin: 10px;
+  object-fit: cover;
+  width: 80px;
+}
+.imagenEditInput {
+  color: rgba(255, 255, 255, 0);
+  padding: 0;
+  margin: 5px 0 0 -4px;
+  outline: none;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 0.3rem;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 3px 15px;
+  border-radius: 10px;
+}
+.rows {
+  margin-bottom: 10px;
+}
+.buttons {
+  margin: 10px 0;
+}
+@media screen and (max-width: 770px) {
+  .div {
+    margin: 20px;
+  }
+}

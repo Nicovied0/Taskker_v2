@@ -1,0 +1,36 @@
+<div class="contenedor">
+  <div class="nav">
+    <h1 class="nav__icon" (click)="goHome()">Taskker</h1>
+    <div class="nav__links" [ngClass]="{ active: active }">
+      <h2 class="nav__links-comunidad" (click)="goHome()" *ngIf="active">
+        Inicio
+      </h2>
+      <h2 class="nav__links-list" (click)="goAboutUs()">Sobre Nosotros</h2>
+      <h2 class="nav__links-list" (click)="goSupport()">Soporte</h2>
+      <h2
+        class="nav__links-list"
+        (click)="goDashboard()"
+        [ngClass]="{ active: active }"
+        *ngIf="!logged"
+      >
+        Loguearse
+      </h2>
+      <h2
+        class="nav__links-list button2"
+        (click)="goDashboard()"
+        [ngClass]="{ active: active }"
+        *ngIf="!logged"
+      >
+        Registrarse
+      </h2>
+      <h2 class="nav__links-list" (click)="goDashboard()" *ngIf="logged">
+        Mi Pefil
+      </h2>
+    </div>
+    <div class="nav__burguer" (click)="showBurger()">
+      <div class="nav__burguer-line-1" [ngClass]="{ active: active }"></div>
+      <div class="nav__burguer-line-2" [ngClass]="{ active: active }"></div>
+      <div class="nav__burguer-line-3" [ngClass]="{ active: active }"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="auth-container">
+  <div *ngIf="showLogin; else registerForm" class="auth-form login-form">
+    <h2 class="auth-form__title">Iniciar sesión</h2>
+    <form (ngSubmit)="login()" class="auth-form__form">
+      <div class="auth-form__group">
+        <label for="loginEmail" class="auth-form__label">Email:</label>
+        <input
+          type="email"
+          id="loginEmail"
+          name="loginEmail"
+          [(ngModel)]="loginData.email"
+          required
+          class="auth-form__input"
+        />
+      </div>
+      <div class="auth-form__group">
+        <label for="loginPassword" class="auth-form__label">Contraseña:</label>
+        <input
+          type="password"
+          id="loginPassword"
+          name="loginPassword"
+          [(ngModel)]="loginData.password"
+          required
+          class="auth-form__input"
+        />
+      </div>
+      <button type="submit" class="auth-form__button" *ngIf="!loader">
+        Iniciar sesión
+      </button>
+      <button class="auth-form__button" *ngIf="loader">
+        <div class="div">
+          <span class="loader"></span>
+        </div>
+      </button>
+    </form>
+    <p class="auth-form__switch" *ngIf="!loader">
+      ¿No tienes una cuenta?
+      <a (click)="toggleForm(false)" class="auth-form__link">Regístrate</a>
+    </p>
+  </div>
+
+  <ng-template #registerForm>
+    <div class="auth-form register-form">
+      <h2 class="auth-form__title">Registrarse</h2>
+      <form (ngSubmit)="registerUser()" class="auth-form__form">
+        <div class="auth-form__group">
+          <label for="registerUsername" class="auth-form__label"
+            >Nombre de usuario:</label
+          >
+          <input
+            type="text"
+            id="registerUsername"
+            name="registerUsername"
+            [(ngModel)]="registerData.username"
+            required
+            class="auth-form__input"
+          />
+        </div>
+        <div class="auth-form__group">
+          <label for="registerEmail" class="auth-form__label">Email:</label>
+          <input
+            type="email"
+            id="registerEmail"
+            name="registerEmail"
+            [(ngModel)]="registerData.email"
+            required
+            class="auth-form__input"
+          />
+        </div>
+        <div class="auth-form__group">
+          <label for="registerPassword" class="auth-form__label"
+            >Contraseña:</label
+          >
+          <input
+            type="password"
+            id="registerPassword"
+            name="registerPassword"
+            [(ngModel)]="registerData.password"
+            required
+            class="auth-form__input"
+          />
+        </div>
+        <button type="submit" class="auth-form__button" *ngIf="!loader">
+          Registrarse
+        </button>
+        <button class="auth-form__button" *ngIf="loader">
+          <div class="div">
+            <span class="loader"></span>
+          </div>
+        </button>
+      </form>
+      <p class="auth-form__switch" *ngIf="!loader">
+        ¿Ya tienes una cuenta?
+        <a (click)="toggleForm(true)" class="auth-form__link">Iniciar sesión</a>
+      </p>
+    </div>
+  </ng-template>
+</div>
