@@ -1,0 +1,59 @@
+.grid {
+  display: grid;
+  height: 80vh;
+  
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: 100px repeat(7, 1fr);
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  margin-right: 16px;
+}
+
+.grid-cell {
+  border: 1px solid #ccc; 
+  padding: 5px;
+  min-width: 100px;
+}
+
+.grid-days {
+  border: 1px solid #ccc;
+  padding: 5px;
+  min-width: 100px;
+}
+.days {
+  padding: 10px;
+}
+.internal-row{
+  overflow: scroll;
+}
+.grid-row {
+  display: grid;
+  grid-template-columns: 100px repeat(7, 1fr);
+  border-bottom: 1px solid #ccc;
+  
+}
+
+.grid-time {
+  border-right: 1px solid #ccc;
+  padding: 5px;
+}
+
+/* Estilo para ocultar el texto de hover por defecto */
+.hover-text {
+  display: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.day-with-hover:hover .hover-text {
+  display: inline-block;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.day-with-hover:hover .hover-day {
+  display: none;
+}

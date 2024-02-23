@@ -70,7 +70,7 @@ async function deleteTaskById(req, res) {
 
 async function updateTaskById(req, res) {
   try {
-    const { title, description, meetingUrl, start, end, status } = req.body;
+    const { title, description, meetingUrl, start, end, status,diaryEvent } = req.body;
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
       {
@@ -80,6 +80,7 @@ async function updateTaskById(req, res) {
         start,
         end,
         status,
+        diaryEvent
       },
       { new: true }
     );
@@ -112,7 +113,7 @@ async function updateTaskByStatus(req, res) {
 
 async function createTask(req, res) {
   try {
-    const { title, description, meetingUrl, start, end, status, usercreator } =
+    const { title, description, meetingUrl, start, end, status, usercreator ,diaryEvent} =
       req.body;
     const task = new Task({
       title,
@@ -122,6 +123,7 @@ async function createTask(req, res) {
       end,
       status,
       usercreator,
+      diaryEvent
     });
 
     const userId = usercreator;

@@ -1,0 +1,69 @@
+<div>
+  <h2>soy semana : 23/02</h2>
+  <div>
+    <app-navigator (dataNavigation)="recibirDatosDelHijo($event)" />
+  </div>
+</div>
+
+<div class="grid" *ngIf="week">
+  <h2>spy wek</h2>
+  <div class="grid-header">
+    <div class="grid-cell"></div>
+    <div class="grid-days days" *ngFor="let dayData of gridData; let i = index">
+      <div class="day-with-hover">
+        <span class="hover-day">{{ dayData.day }}</span>
+        <span class="hover-text">{{ weeks[i]?.dayName }}</span>
+      </div>
+      <input *ngIf="currentDateIndex === i" type="text" autofocus />
+    </div>
+  </div>
+
+  <div class="internal-row">
+    <div class="grid-row" *ngFor="let hour of hours; index as i">
+      <div class="grid-time">{{ hour.title }}</div>
+      <div class="grid-cell" *ngFor="let dayData of gridData">
+        <div (click)="createTask(dayData.hours[i].time, dayData)">
+          {{ dayData.hours[i].time }} h
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid" *ngIf="month">
+  <h2>spy month</h2>
+
+  <div class="grid-header">
+    <div class="grid-cell"></div>
+    <div class="grid-cell days" *ngFor="let dayData of gridData">
+      {{ dayData.day }}
+    </div>
+  </div>
+  <div class="grid-row" *ngFor="let hour of hours; index as i">
+    <div class="grid-time">{{ hour.title }}</div>
+    <div class="grid-cell" *ngFor="let dayData of gridData">
+      <div (click)="createTask(dayData.hours[i].time, dayData)">
+        {{ dayData.hours[i].time }} h
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="grid" *ngIf="day">
+  <h2>spy day</h2>
+
+  <div class="grid-header">
+    <div class="grid-cell"></div>
+    <div class="grid-cell days" *ngFor="let dayData of gridData">
+      {{ dayData.day }}
+    </div>
+  </div>
+  <div class="grid-row" *ngFor="let hour of hours; index as i">
+    <div class="grid-time">{{ hour.title }}</div>
+    <div class="grid-cell" *ngFor="let dayData of gridData">
+      <div (click)="createTask(dayData.hours[i].time, dayData)">
+        {{ dayData.hours[i].time }} h
+      </div>
+    </div>
+  </div>
+</div>

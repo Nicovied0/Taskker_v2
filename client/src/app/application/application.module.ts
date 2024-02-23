@@ -12,6 +12,8 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { DayPilotModule } from '@daypilot/daypilot-lite-angular';
 import { DataService } from './components/calendar/data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { Calendar2Component } from './components/calendar2/calendar2.component';
+import { NavigatorComponent } from './components/navigator/navigator.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { HttpClientModule } from '@angular/common/http';
     ProfileviewComponent,
     EditprofileviewComponent,
     CalendarComponent,
+    Calendar2Component,
+    NavigatorComponent,
   ],
   imports: [
     CommonModule,

@@ -21,6 +21,10 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     default:"Agendada"
   },
+  diaryEvent:{
+    type:Boolean,
+    default:false
+  },
   usercreator: {
     type: String,
   },

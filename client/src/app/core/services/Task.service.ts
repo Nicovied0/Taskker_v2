@@ -57,6 +57,7 @@ export class TaskService {
       end: eventData.end.value,
       status: eventData.backColor,
       usercreator: eventData.usercreator,
+      
     };
   }
 }

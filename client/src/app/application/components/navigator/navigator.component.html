@@ -1,0 +1,27 @@
+<div class="buttons">
+    <button>
+        Anterior
+      </button>
+  <button
+    (click)="viewDay()"
+    [class]="this.configNavigator.selectMode == 'Day' ? 'selected' : ''"
+  >
+    Dia
+  </button>
+  <button
+    (click)="viewWeek()"
+    [class]="this.configNavigator.selectMode == 'Week' ? 'selected' : ''"
+  >
+    Semana
+  </button>
+  <button
+    (click)="viewMonth()"
+    [class]="this.configNavigator.selectMode == 'Month' ? 'selected' : ''"
+  >
+    Mes
+  </button>
+  <button>
+    Siguiente
+  </button>
+  
+</div>

@@ -39,6 +39,8 @@ export class CalendarComponent implements AfterViewInit {
   reloadComponentFlag: boolean = true;
   ngOnInit(): void {}
 
+  repeatDaily: boolean = false;
+
   form = [
     { name: 'Titulo', id: 'text' },
     { name: 'Descripcion', id: 'description' },
@@ -103,6 +105,7 @@ export class CalendarComponent implements AfterViewInit {
               dateFormat: 'MM/dd/yyyy',
               type: 'datetime',
             },
+            
             {
               name: 'Estado',
               id: 'backColor',
@@ -410,55 +413,72 @@ export class CalendarComponent implements AfterViewInit {
     }
   }
 
+
+
+
   async onEventClick(args: any) {
+   
     const form = [
-      { name: 'Titulo', id: 'text' },
-      { name: 'Descripcion', id: 'description', type: 'textarea' },
-      { name: 'Url de reunion', id: 'meetingUrl' },
-      {
-        name: 'Comienza',
-        id: 'start',
-        dateFormat: 'MM/dd/yyyy',
-        type: 'datetime',
-      },
-      {
-        name: 'Termina',
-        id: 'end',
-        dateFormat: 'MM/dd/yyyy',
-        type: 'datetime',
-      },
-      {
-        name: 'Estado',
-        id: 'backColor',
-        type: 'select',
-        options: this.ds.getColors(),
-      },
+        { name: 'Titulo', id: 'text' },
+        { name: 'Descripcion', id: 'description', type: 'textarea' },
+        { name: 'Url de reunion', id: 'meetingUrl' },
+        { name: 'Repetir todos los días', id: 'repeatDaily', type: 'checkbox' }
     ];
-    const data = args.e.data;
 
-    const modal = await DayPilot.Modal.form(form, data);
+    const repeatDailyCheckbox = form.find(field => field.id === 'repeatDaily') as { name: string; id: string; type: string; checked?: boolean };
 
-    if (modal.canceled) {
-      return;
+    // Verificar si el checkbox existe y si está marcado
+    const repeatDailyValue = repeatDailyCheckbox && repeatDailyCheckbox.checked ? true : false;
+    
+    // Establecer la variable repeatDaily en consecuencia
+    this.repeatDaily = repeatDailyValue;
+    console.log(this.repeatDaily )
+    console.log(args)
+    if (this.repeatDaily === true) {
+      form.push(
+          {
+              name: 'Comienza',
+              id: 'start',
+              type: 'datetime',
+          },
+          {
+              name: 'Termina',
+              id: 'end',
+              type: 'datetime',
+          }
+      );
+  }else {
     }
+
+    const data = args.e.data;
+    console.log(data, "aca, ddata tiene que tener el repeatDaily")
+    const modal = await DayPilot.Modal.form(form, data);
+console.log(modal)
+    if (modal.canceled) {
+        return;
+    }
+
     const eventId = data.id;
-    let updatedEvent = modal.result;
+    const updatedEvent = modal.result;
+
     updatedEvent.backColor = this.getColorForStatus(modal.result.backColor);
 
     this.taskService.editTask(eventId, updatedEvent).subscribe(
-      (response) => {
-        console.log('Evento editado con éxito:', response);
-        args.e.data.text = updatedEvent.text;
-        args.e.data.description = updatedEvent.description;
-        args.e.data.start = updatedEvent.start;
-        args.e.data.end = updatedEvent.end;
-        args.e.data.backColor = this.getStatusForColors(updatedEvent.backColor);
-      },
-      (error) => {
-        console.error('Error al editar el evento:', error);
-      }
+        (response) => {
+            console.log('Evento editado con éxito:', response);
+            args.e.data.text = updatedEvent.text;
+            args.e.data.description = updatedEvent.description;
+            args.e.data.start = updatedEvent.start;
+            args.e.data.end = updatedEvent.end;
+            args.e.data.backColor = this.getStatusForColors(updatedEvent.backColor);
+        },
+        (error) => {
+            console.error('Error al editar el evento:', error);
+        }
     );
-  }
+}
+
+
 
   getColorForStatus = (status: string): string => {
     switch (status) {
