@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common'; // Importa CommonModule
+import { DatePipe } from '@angular/common';
 
 import { ApplicationRoutingModule } from './application-routing.module';
 import { AppviewComponent } from './views/appview/appview.component';
@@ -26,7 +27,7 @@ import { NavigatorComponent } from './components/navigator/navigator.component';
     NavigatorComponent,
   ],
   imports: [
-    CommonModule,
+    CommonModule, // Agrega CommonModule aquí
     ApplicationRoutingModule,
     FormsModule,
     HttpClientModule,

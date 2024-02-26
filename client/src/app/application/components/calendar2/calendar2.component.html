@@ -14,7 +14,6 @@
         <span class="hover-day">{{ dayData.day }}</span>
         <span class="hover-text">{{ weeks[i]?.dayName }}</span>
       </div>
-      <input *ngIf="currentDateIndex === i" type="text" autofocus />
     </div>
   </div>
 
@@ -22,7 +21,7 @@
     <div class="grid-row" *ngFor="let hour of hours; index as i">
       <div class="grid-time">{{ hour.title }}</div>
       <div class="grid-cell" *ngFor="let dayData of gridData">
-        <div (click)="createTask(dayData.hours[i].time, dayData)">
+        <div (click)="createTask(dayData.hours[i].time, dayData,weeks)">
           {{ dayData.hours[i].time }} h
         </div>
       </div>
@@ -42,7 +41,7 @@
   <div class="grid-row" *ngFor="let hour of hours; index as i">
     <div class="grid-time">{{ hour.title }}</div>
     <div class="grid-cell" *ngFor="let dayData of gridData">
-      <div (click)="createTask(dayData.hours[i].time, dayData)">
+      <div (click)="createTask(dayData.hours[i].time, dayData,weeks[i]?.dayName)">
         {{ dayData.hours[i].time }} h
       </div>
     </div>
@@ -61,7 +60,7 @@
   <div class="grid-row" *ngFor="let hour of hours; index as i">
     <div class="grid-time">{{ hour.title }}</div>
     <div class="grid-cell" *ngFor="let dayData of gridData">
-      <div (click)="createTask(dayData.hours[i].time, dayData)">
+      <div (click)="createTask(dayData.hours[i].time, dayData,weeks[i]?.dayName)">
         {{ dayData.hours[i].time }} h
       </div>
     </div>

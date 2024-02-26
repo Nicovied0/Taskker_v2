@@ -25,11 +25,13 @@ export class Calendar2Component implements OnInit {
   setAutofocus() {
     const currentDate = new Date();
     if (this.gridData) {
-      this.currentDateIndex = this.gridData.findIndex(dayData => {
+      this.currentDateIndex = this.gridData.findIndex((dayData) => {
         const day = new Date(dayData.day);
-        return day.getDate() === currentDate.getDate() &&
-               day.getMonth() === currentDate.getMonth() &&
-               day.getFullYear() === currentDate.getFullYear();
+        return (
+          day.getDate() === currentDate.getDate() &&
+          day.getMonth() === currentDate.getMonth() &&
+          day.getFullYear() === currentDate.getFullYear()
+        );
       });
     }
   }
@@ -55,13 +57,21 @@ export class Calendar2Component implements OnInit {
       today.setDate(today.getDate() - today.getDay() + 1)
     );
     const week = [
-      { date: firstDayOfWeek, dayName: this.getDayName(firstDayOfWeek) },
+      {
+        date: firstDayOfWeek,
+        dayName: this.getDayName(firstDayOfWeek),
+        dateComplet: this.getDayNumber(firstDayOfWeek),
+      },
     ];
 
     for (let i = 1; i < 7; i++) {
       const nextDay = new Date(firstDayOfWeek);
       nextDay.setDate(firstDayOfWeek.getDate() + i);
-      week.push({ date: nextDay, dayName: this.getDayName(nextDay) });
+      week.push({
+        date: nextDay,
+        dayName: this.getDayName(nextDay),
+        dateComplet: this.getDayNumber(nextDay),
+      });
     }
 
     this.weeks = week;
@@ -73,9 +83,43 @@ export class Calendar2Component implements OnInit {
     return `${day} / ${month}`;
   }
 
-  createTask(data: any, data2: any) {
-    console.log(data);
-    console.log(data2.day);
+  getDayNumber(date: Date): string | null {
+    if (!date) {
+      return null;
+    }
+
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
+  }
+
+  createTask(hour: any, dayData: any, arrayDate: any) {
+    const createTask = this.generateDatoToCreateTask(hour, dayData, arrayDate);
+    console.log(createTask);
+  }
+
+  generateDatoToCreateTask(hour: any, dayData: any, arrayDate: any[]): any {
+    const dayIndexMap: { [key: string]: number } = {
+      Lunes: 0,
+      Martes: 1,
+      Miercoles: 2,
+      Jueves: 3,
+      Viernes: 4,
+      Sabado: 5,
+      Domingo: 6,
+    };
+
+    const dayIndex = dayIndexMap[dayData.day];
+
+    if (dayIndex !== undefined) {
+      const dayNumber = arrayDate[dayIndex].dateComplet;
+      const response = dayNumber + hour;
+      return response;
+    } else {
+      console.log('error in generate date');
+    }
   }
 
   selectCalendar(data: any) {
