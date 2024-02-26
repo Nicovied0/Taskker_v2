@@ -21,7 +21,7 @@
     <div class="grid-row" *ngFor="let hour of hours; index as i">
       <div class="grid-time">{{ hour.title }}</div>
       <div class="grid-cell" *ngFor="let dayData of gridData">
-        <div (click)="createTask(dayData.hours[i].time, dayData,weeks)">
+        <div (click)="createTask(dayData.hours[i].time, dayData, weeks)">
           {{ dayData.hours[i].time }} h
         </div>
       </div>
@@ -41,7 +41,9 @@
   <div class="grid-row" *ngFor="let hour of hours; index as i">
     <div class="grid-time">{{ hour.title }}</div>
     <div class="grid-cell" *ngFor="let dayData of gridData">
-      <div (click)="createTask(dayData.hours[i].time, dayData,weeks[i]?.dayName)">
+      <div
+        (click)="createTask(dayData.hours[i].time, dayData, weeks[i]?.dayName)"
+      >
         {{ dayData.hours[i].time }} h
       </div>
     </div>
@@ -60,9 +62,19 @@
   <div class="grid-row" *ngFor="let hour of hours; index as i">
     <div class="grid-time">{{ hour.title }}</div>
     <div class="grid-cell" *ngFor="let dayData of gridData">
-      <div (click)="createTask(dayData.hours[i].time, dayData,weeks[i]?.dayName)">
+      <div
+        (click)="createTask(dayData.hours[i].time, dayData, weeks[i]?.dayName)"
+      >
         {{ dayData.hours[i].time }} h
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="showModal">
+  <app-modal
+    (taskCreated)="onTaskCreated($event)"
+    (modalClosed)="onModalClosed()"
+    [dateToTask]="dateToTask"
+  ></app-modal>
 </div>

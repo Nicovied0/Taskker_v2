@@ -14,6 +14,8 @@ export class Calendar2Component implements OnInit {
   day = false;
   weeks: any[] = [];
   tasks = [];
+  showModal = false ;
+  dateToTask : any
   constructor(private gridService: GridService) {}
 
   ngOnInit(): void {
@@ -97,7 +99,21 @@ export class Calendar2Component implements OnInit {
 
   createTask(hour: any, dayData: any, arrayDate: any) {
     const createTask = this.generateDatoToCreateTask(hour, dayData, arrayDate);
+    this.dateToTask = createTask
+    this.showModal = true
     console.log(createTask);
+  }
+
+
+  onTaskCreated(taskName: string) {
+    console.log('Tarea creada:', taskName);
+    this.showModal = false
+
+  }
+
+  onModalClosed() {
+    this.showModal = false
+    console.log('El modal se ha cerrado');
   }
 
   generateDatoToCreateTask(hour: any, dayData: any, arrayDate: any[]): any {

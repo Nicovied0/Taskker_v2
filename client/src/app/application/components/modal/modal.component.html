@@ -1,0 +1,41 @@
+<div class="modal-background" (click)="closeModal()"></div>
+<div class="modal-container">
+  <div class="modal-content">
+    <h1>Crear Tarea</h1>
+    <div class="form-group">
+      <label for="title">Título:</label>
+      <input type="text" id="title" placeholder="Título de la tarea" [(ngModel)]="taskName" />
+    </div>
+    <div class="form-group">
+      <label for="description">Descripción:</label>
+      <textarea id="description" placeholder="Descripción de la tarea" [(ngModel)]="taskDescription"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="meetingUrl">URL de reunión:</label>
+      <input type="text" id="meetingUrl" placeholder="URL de la reunión" [(ngModel)]="meetingUrl" />
+    </div>
+    <div class="form-group">
+      <input type="checkbox" id="repeatDaily" [(ngModel)]="repeatDaily" />
+      <label for="repeatDaily">Repetir todos los días</label>
+    </div>
+    <div class="form-group" *ngIf="repeatDaily">
+      <label for="startDate">Fecha de inicio:</label>
+      <input type="date" id="startDate" [(ngModel)]="startDate">
+    </div>
+    <div class="form-group" *ngIf="repeatDaily">
+      <label for="endDate">Fecha de fin:</label>
+      <input type="date" id="endDate" [(ngModel)]="endDate" />
+    </div>
+    <div class="form-group" *ngIf="!repeatDaily">
+      <label for="startTime">Hora de inicio:</label>
+      <select id="startTime" [(ngModel)]="startTime">
+        <option *ngFor="let option of startTimeOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+    
+    <div class="buttons">
+      <button (click)="createTask()">Crear Tarea</button>
+      <button (click)="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
