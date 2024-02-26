@@ -20,10 +20,8 @@
   <div class="internal-row">
     <div class="grid-row" *ngFor="let hour of hours; index as i">
       <div class="grid-time">{{ hour.title }}</div>
-      <div class="grid-cell" *ngFor="let dayData of gridData">
-        <div (click)="createTask(dayData.hours[i].time, dayData, weeks)">
-          {{ dayData.hours[i].time }} h
-        </div>
+      <div class="grid-cell" *ngFor="let dayData of gridData" (click)="createTask(dayData.hours[i].time, dayData, weeks)">
+        
       </div>
     </div>
   </div>
@@ -65,7 +63,7 @@
       <div
         (click)="createTask(dayData.hours[i].time, dayData, weeks[i]?.dayName)"
       >
-        {{ dayData.hours[i].time }} h
+        <!-- {{ dayData.hours[i].time }} hk -->
       </div>
     </div>
   </div>

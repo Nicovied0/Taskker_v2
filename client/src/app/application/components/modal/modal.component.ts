@@ -13,70 +13,106 @@ export class ModalComponent implements OnInit {
   startDate: string = '';
   endDate: string = '';
   startTime: string = '';
+  endTime: string = '';
   startTimeOptions: string[] = [];
+  startDataToInput: any = '';
   endTimeOptions: string[] = [];
+  taskData: any = {
+    status: 'Agendada',
+  };
 
   @Input() dateToTask: string = '';
   @Output() taskCreated = new EventEmitter<any>();
   @Output() modalClosed = new EventEmitter<void>();
 
   ngOnInit() {
-    // Establecer startDate con el valor de dateToTask al iniciar el modal
     this.startDate = this.dateToTask;
-
-    // Obtener la hora de inicio de dateToTask y generar las opciones de hora de inicio
-    const dateTimeParts = this.dateToTask.split('T');
-    const timePart = dateTimeParts[1].substring(0, 5); // "09:30"
-    this.startTime = timePart;
-    this.generateStartTimeOptions();
+    this.comproveTypeDate();
+    console.log(this.repeatDaily);
   }
 
   createTask() {
-    const taskData = {
-      title: this.taskName,
-      description: this.taskDescription,
-      status: 'Agendada',
-      meetingUrl: this.meetingUrl,
-      repeatDaily: this.repeatDaily,
-      start: this.startDate + 'T' + this.startTime,
-      end: this.endDate,
-    };
-    this.taskCreated.emit(taskData);
+    if (this.repeatDaily === false) {
+      this.taskData.start = this.startDate;
+      this.taskData.title = this.taskName;
+      this.taskData.description = this.taskDescription;
+      this.taskData.meetingUrl = this.meetingUrl;
+      this.taskData.repeatDaily = this.repeatDaily;
+      this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
+    }
+    if (this.repeatDaily === true) {
+      this.taskData.start = this.startDate;
+      this.taskData.title = this.taskName;
+      this.taskData.description = this.taskDescription;
+      this.taskData.meetingUrl = this.meetingUrl;
+      this.taskData.repeatDaily = this.repeatDaily;
+      this.taskData.start = this.startDate;
+      this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
+      this.taskData.repeatDaily = true;
+
+      console.log(this.startDate);
+      console.log(this.endDate);
+      console.log('soy yo');
+    }
+    this.taskCreated.emit(this.taskData);
     this.closeModal();
   }
 
+  comproveTypeDate() {
+    if (this.repeatDaily === true) {
+      const dateTimeParts = this.dateToTask.split('T');
+      this.startDataToInput = dateTimeParts[0];
+      this.taskData.start = this.startDate;
+      this.taskData.end = this.endDate;
+    }
+    if (this.repeatDaily === false) {
+      const dateTimeParts = this.dateToTask.split('T');
+      const timePart = dateTimeParts[1].substring(0, 5);
+      this.startTime = timePart;
+      this.endDate = dateTimeParts[0];
+      this.generateStartTimeOptions();
+      this.generateEndTimeOptions();
+    }
+  }
   generateStartTimeOptions() {
     for (let hour = 6; hour <= 23; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const time = `${hour.toString().padStart(2, '0')}:${minute
+          .toString()
+          .padStart(2, '0')}`;
         this.startTimeOptions.push(time);
       }
     }
   }
 
   generateEndTimeOptions() {
-    // Limpiar el array de opciones de hora de fin
     this.endTimeOptions = [];
 
-    // Obtener la hora y los minutos de la hora de inicio seleccionada
     const [startHour, startMinute] = this.startTime.split(':').map(Number);
 
-    // Calcular la hora de inicio en minutos
     const startTotalMinutes = startHour * 60 + startMinute;
 
-    // Generar opciones de hora de fin con intervalos de 30 minutos a partir de la hora de inicio
-    for (let totalMinutes = startTotalMinutes + 30; totalMinutes <= 23 * 60; totalMinutes += 30) {
-      // Calcular la hora y los minutos para la opción de hora de fin
+    for (
+      let totalMinutes = startTotalMinutes + 30;
+      totalMinutes <= 23 * 60;
+      totalMinutes += 30
+    ) {
       const hour = Math.floor(totalMinutes / 60);
       const minute = totalMinutes % 60;
 
-      // Agregar la opción de hora de fin al array
-      const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+      const time = `${hour.toString().padStart(2, '0')}:${minute
+        .toString()
+        .padStart(2, '0')}`;
       this.endTimeOptions.push(time);
     }
   }
 
   closeModal() {
     this.modalClosed.emit();
+  }
+
+  onInputChange() {
+    console.log('El valor del campo ha cambiado: ' + this.repeatDaily);
+    this.comproveTypeDate();
   }
 }
