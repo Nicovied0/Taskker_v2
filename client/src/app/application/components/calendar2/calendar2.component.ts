@@ -13,9 +13,20 @@ export class Calendar2Component implements OnInit {
   month = false;
   day = false;
   weeks: any[] = [];
-  tasks = [];
-  showModal = false ;
-  dateToTask : any
+  tasks = [
+    {
+      id: '65dddd1585647a89ff9f50f8',
+      title: 'reuniones',
+      start: '2024-02-27T12:00:00',
+      end: '2024-02-27T12:30:00',
+      status: 'Agendada',
+      diaryEvent: false,
+      usercreator: '65c5132301bbd4c354fdb6a2',
+    },
+  ];
+  showModal = false;
+  dateToTask: any;
+  status: string = '';
   constructor(private gridService: GridService) {}
 
   ngOnInit(): void {
@@ -99,23 +110,35 @@ export class Calendar2Component implements OnInit {
 
   createTask(hour: any, dayData: any, arrayDate: any) {
     const createTask = this.generateDatoToCreateTask(hour, dayData, arrayDate);
-    this.dateToTask = createTask
-    this.showModal = true
+    this.dateToTask = createTask;
+    this.showModal = true;
     console.log(createTask);
   }
 
-
   onTaskCreated(taskName: string) {
     console.log('Tarea creada:', taskName);
-    this.showModal = false
-
+    this.showModal = false;
   }
 
   onModalClosed() {
-    this.showModal = false
+    this.showModal = false;
     console.log('El modal se ha cerrado');
   }
 
+  generateArray(hour: any, dayData: any, arrayDate: any): boolean {
+    const data = this.generateDatoToCreateTask(hour, dayData, arrayDate);
+    console.log(data);
+    
+    const match = this.tasks.some(task => task.start === data);
+    if (match) {
+      console.log("soy datas");
+    } else {
+      console.log("se pudrio");
+    }
+    
+    return match;
+  }
+  
   generateDatoToCreateTask(hour: any, dayData: any, arrayDate: any[]): any {
     const dayIndexMap: { [key: string]: number } = {
       Lunes: 0,
@@ -132,6 +155,7 @@ export class Calendar2Component implements OnInit {
     if (dayIndex !== undefined) {
       const dayNumber = arrayDate[dayIndex].dateComplet;
       const response = dayNumber + hour;
+      console.log('response',response);
       return response;
     } else {
       console.log('error in generate date');
@@ -158,5 +182,16 @@ export class Calendar2Component implements OnInit {
 
   recibirDatosDelHijo(childData: any) {
     this.selectCalendar(childData);
+  }
+
+  cellClicked = false;
+  selectedRow: number | null = null;
+  selectedCol: number | null = null;
+
+  toggleCellClicked(row: number, col: number) {
+    console.log('me ejecute', row, col);
+    this.cellClicked = !this.cellClicked;
+    this.selectedRow = row;
+    this.selectedCol = col;
   }
 }

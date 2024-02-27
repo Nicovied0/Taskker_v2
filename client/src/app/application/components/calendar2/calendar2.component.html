@@ -20,8 +20,24 @@
   <div class="internal-row">
     <div class="grid-row" *ngFor="let hour of hours; index as i">
       <div class="grid-time">{{ hour.title }}</div>
-      <div class="grid-cell" *ngFor="let dayData of gridData" (click)="createTask(dayData.hours[i].time, dayData, weeks)">
-        
+      <div
+        class="grid-cell"
+        *ngFor="let dayData of gridData; let j = index"
+        (click)="
+          createTask(dayData.hours[i].time, dayData, weeks);
+          toggleCellClicked(i, j)
+        "
+        [ngClass]="{
+          'cell-clicked': generateArray(dayData.hours[i].time, dayData, weeks)
+        }"
+      >
+        <!-- Contenido de la celda -->
+        <div  *ngIf="generateArray(dayData.hours[i].time, dayData, weeks)">
+
+          <div *ngFor="let task of tasks">
+          <p>{{ task.title }}</p>
+        </div>
+        </div>
       </div>
     </div>
   </div>

@@ -49,9 +49,6 @@ export class ModalComponent implements OnInit {
       this.taskData.start = this.startDate;
       this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
       this.taskData.repeatDaily = true;
-
-      console.log(this.startDate);
-      console.log(this.endDate);
       console.log('soy yo');
     }
     this.taskCreated.emit(this.taskData);
