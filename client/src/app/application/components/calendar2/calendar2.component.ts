@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GridService } from '../../../core/services/GridDate.service';
+import { TaskService } from 'src/app/core/services/Task.service';
+import { AuthService } from 'src/app/core/services/Auth.service';
 
 @Component({
   selector: 'app-calendar2',
@@ -13,27 +15,39 @@ export class Calendar2Component implements OnInit {
   month = false;
   day = false;
   weeks: any[] = [];
-  tasks = [
-    {
-      id: '65dddd1585647a89ff9f50f8',
-      title: 'reuniones',
-      start: '2024-02-27T12:00:00',
-      end: '2024-02-27T12:30:00',
-      status: 'Agendada',
-      diaryEvent: false,
-      usercreator: '65c5132301bbd4c354fdb6a2',
-    },
-  ];
+  cellTasks: boolean[][] = [];
+
+  tasks: any[] = [];
   showModal = false;
+  showModalEdit = false;
   dateToTask: any;
+  dataToEdit: any;
   status: string = '';
-  constructor(private gridService: GridService) {}
+  currentDateIndex: number | undefined;
+  cellClicked: boolean | undefined;
+  selectedCol: number | undefined;
+  selectedRow: number | undefined;
+
+  constructor(
+    private gridService: GridService,
+    private taskService: TaskService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
+    this.getData();
     this.loadGridData();
     this.generateWeekDates();
   }
-  currentDateIndex: number | undefined;
+
+  getData() {
+    const userId = this.authService.getUserDataFromLocalStorage().id;
+    this.taskService.getTasksByUserId2(userId).subscribe((tasks) => {
+      this.tasks = tasks;
+      console.log('tasks', this.tasks);
+      this.generateArrayForAllTasks();
+    });
+  }
 
   setAutofocus() {
     const currentDate = new Date();
@@ -53,17 +67,16 @@ export class Calendar2Component implements OnInit {
     this.gridService.getGridData().subscribe(
       (data) => {
         this.gridData = data;
-        console.log(this.gridData);
         if (this.gridData && this.gridData.length > 0) {
           this.hours = this.gridData[0].hours;
         }
-        console.log(this.hours);
       },
       (error) => {
         console.error('Error al cargar los datos de la cuadrícula:', error);
       }
     );
   }
+
   generateWeekDates() {
     const today = new Date();
     const firstDayOfWeek = new Date(
@@ -88,8 +101,8 @@ export class Calendar2Component implements OnInit {
     }
 
     this.weeks = week;
-    console.log(week);
   }
+
   getDayName(date: Date): string {
     const day = date.getDate();
     const month = date.toLocaleString('default', { month: 'short' });
@@ -112,7 +125,6 @@ export class Calendar2Component implements OnInit {
     const createTask = this.generateDatoToCreateTask(hour, dayData, arrayDate);
     this.dateToTask = createTask;
     this.showModal = true;
-    console.log(createTask);
   }
 
   onTaskCreated(taskName: string) {
@@ -122,23 +134,17 @@ export class Calendar2Component implements OnInit {
 
   onModalClosed() {
     this.showModal = false;
-    console.log('El modal se ha cerrado');
+  }
+  onModalEditClosed() {
+    this.showModalEdit = false;
   }
 
-  generateArray(hour: any, dayData: any, arrayDate: any): boolean {
-    const data = this.generateDatoToCreateTask(hour, dayData, arrayDate);
-    console.log(data);
-    
-    const match = this.tasks.some(task => task.start === data);
-    if (match) {
-      console.log("soy datas");
-    } else {
-      console.log("se pudrio");
-    }
-    
-    return match;
+  generateArrayForAllTasks(): void {
+    this.cellTasks = this.hours.map((hour) =>
+      this.gridData!.map((dayData) => this.checkTaskForHour(hour.time, dayData))
+    );
   }
-  
+
   generateDatoToCreateTask(hour: any, dayData: any, arrayDate: any[]): any {
     const dayIndexMap: { [key: string]: number } = {
       Lunes: 0,
@@ -155,43 +161,32 @@ export class Calendar2Component implements OnInit {
     if (dayIndex !== undefined) {
       const dayNumber = arrayDate[dayIndex].dateComplet;
       const response = dayNumber + hour;
-      console.log('response',response);
       return response;
     } else {
       console.log('error in generate date');
+      return null;
     }
   }
 
   selectCalendar(data: any) {
-    if (data === 'Week') {
-      this.week = true;
-      this.month = false;
-      this.day = false;
-    }
-    if (data === 'Month') {
-      this.month = true;
-      this.week = false;
-      this.day = false;
-    }
-    if (data === 'Day') {
-      this.day = true;
-      this.week = false;
-      this.month = false;
-    }
+    this.week = data === 'Week';
+    this.month = data === 'Month';
+    this.day = data === 'Day';
   }
 
   recibirDatosDelHijo(childData: any) {
     this.selectCalendar(childData);
   }
 
-  cellClicked = false;
-  selectedRow: number | null = null;
-  selectedCol: number | null = null;
+  checkTaskForHour(hour: any, dayData: any): boolean {
+    const data = this.generateDatoToCreateTask(hour, dayData, this.weeks);
+    return this.tasks.some((task) => task.start === data);
+  }
 
-  toggleCellClicked(row: number, col: number) {
-    console.log('me ejecute', row, col);
-    this.cellClicked = !this.cellClicked;
-    this.selectedRow = row;
-    this.selectedCol = col;
+  editTaskIfExists(id: any, data: any) {
+    console.log(id, data);
+    this.dataToEdit = data;
+    this.showModalEdit = true;
+    console.log(this.dataToEdit);
   }
 }

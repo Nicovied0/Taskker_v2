@@ -23,6 +23,23 @@ export class TaskService {
           end: new DayPilot.Date(task.end).toString('yyyy-MM-dd HH:mm:ss'),
           backColor: task.status,
           meetingUrl: task.meetingUrl,
+          diaryEvent: task.diaryEvent,
+        }));
+      })
+    );
+  }
+  getTasksByUserId2(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl + '/user/' + userId).pipe(
+      map((tasks: any[]) => {
+        return tasks.map((task) => ({
+          id: task._id,
+          text: task.title,
+          description: task.description,
+          start: task.start,
+          end: task.end,
+          backColor: task.status,
+          meetingUrl: task.meetingUrl,
+          diaryEvent: task.diaryEvent,
         }));
       })
     );
@@ -33,7 +50,7 @@ export class TaskService {
   }
 
   editTask(eventId: string, updatedEvent: any): Observable<any> {
-    const url = this.apiUrl +"/"+ eventId;
+    const url = this.apiUrl + '/' + eventId;
     const adjustedEventData = this.adjustEventData(updatedEvent);
     return this.http.put<any>(url, adjustedEventData);
   }
@@ -57,7 +74,6 @@ export class TaskService {
       end: eventData.end.value,
       status: eventData.backColor,
       usercreator: eventData.usercreator,
-      
     };
   }
 }

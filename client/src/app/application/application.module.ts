@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Calendar2Component } from './components/calendar2/calendar2.component';
 import { NavigatorComponent } from './components/navigator/navigator.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { ModalEditComponent } from './components/modal-edit/modal-edit.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ModalComponent } from './components/modal/modal.component';
     Calendar2Component,
     NavigatorComponent,
     ModalComponent,
+    ModalEditComponent,
   ],
   imports: [
     CommonModule, // Agrega CommonModule aquí

@@ -20,23 +20,27 @@
   <div class="internal-row">
     <div class="grid-row" *ngFor="let hour of hours; index as i">
       <div class="grid-time">{{ hour.title }}</div>
-      <div
-        class="grid-cell"
-        *ngFor="let dayData of gridData; let j = index"
-        (click)="
-          createTask(dayData.hours[i].time, dayData, weeks);
-          toggleCellClicked(i, j)
-        "
-        [ngClass]="{
-          'cell-clicked': generateArray(dayData.hours[i].time, dayData, weeks)
-        }"
-      >
-        <!-- Contenido de la celda -->
-        <div  *ngIf="generateArray(dayData.hours[i].time, dayData, weeks)">
-
-          <div *ngFor="let task of tasks">
-          <p>{{ task.title }}</p>
+      <div class="grid-cell" *ngFor="let dayData of gridData; let j = index">
+        <div *ngIf="checkTaskForHour(hour.time, dayData)" class="grilla">
+          <div *ngFor="let task of tasks" class="datas">
+            <div (click)="editTaskIfExists(task.id, task)">
+              <p
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              >
+                {{ task.text }}
+              </p>
+            </div>
+          </div>
         </div>
+        <div
+          *ngIf="!checkTaskForHour(hour.time, dayData)"
+          (click)="createTask(hour.time, dayData, weeks)"
+          class="grilla"
+        >
+          <div></div>
         </div>
       </div>
     </div>
@@ -45,44 +49,10 @@
 
 <div class="grid" *ngIf="month">
   <h2>spy month</h2>
-
-  <div class="grid-header">
-    <div class="grid-cell"></div>
-    <div class="grid-cell days" *ngFor="let dayData of gridData">
-      {{ dayData.day }}
-    </div>
-  </div>
-  <div class="grid-row" *ngFor="let hour of hours; index as i">
-    <div class="grid-time">{{ hour.title }}</div>
-    <div class="grid-cell" *ngFor="let dayData of gridData">
-      <div
-        (click)="createTask(dayData.hours[i].time, dayData, weeks[i]?.dayName)"
-      >
-        {{ dayData.hours[i].time }} h
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="grid" *ngIf="day">
   <h2>spy day</h2>
-
-  <div class="grid-header">
-    <div class="grid-cell"></div>
-    <div class="grid-cell days" *ngFor="let dayData of gridData">
-      {{ dayData.day }}
-    </div>
-  </div>
-  <div class="grid-row" *ngFor="let hour of hours; index as i">
-    <div class="grid-time">{{ hour.title }}</div>
-    <div class="grid-cell" *ngFor="let dayData of gridData">
-      <div
-        (click)="createTask(dayData.hours[i].time, dayData, weeks[i]?.dayName)"
-      >
-        <!-- {{ dayData.hours[i].time }} hk -->
-      </div>
-    </div>
-  </div>
 </div>
 
 <div *ngIf="showModal">
@@ -91,4 +61,12 @@
     (modalClosed)="onModalClosed()"
     [dateToTask]="dateToTask"
   ></app-modal>
+</div>
+
+<div *ngIf="showModalEdit">
+  <app-modal-edit
+    (taskCreated)="onTaskCreated($event)"
+    (modalEditClosed)="onModalEditClosed()"
+    [dataToEdit]="dataToEdit"
+  ></app-modal-edit>
 </div>
