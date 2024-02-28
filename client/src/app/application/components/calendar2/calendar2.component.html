@@ -1,12 +1,11 @@
 <div>
-  <h2>soy semana : 23/02</h2>
+  <h2>Semana : {{ weeks[0]?.dayName }}</h2>
   <div>
     <app-navigator (dataNavigation)="recibirDatosDelHijo($event)" />
   </div>
 </div>
 
 <div class="grid" *ngIf="week">
-  <h2>spy wek</h2>
   <div class="grid-header">
     <div class="grid-cell"></div>
     <div class="grid-days days" *ngFor="let dayData of gridData; let i = index">
@@ -24,7 +23,7 @@
         <div *ngIf="checkTaskForHour(hour.time, dayData)" class="grilla">
           <div *ngFor="let task of tasks" class="datas">
             <button
-            class="close"
+              class="close"
               (click)="deleteTask(task.id)"
               *ngIf="
                 task.start ===
@@ -32,9 +31,9 @@
               "
             >
               x
-          </button>
+            </button>
 
-            <div (click)="editTaskIfExists(task.id, task)" >
+            <div (click)="editTaskIfExists(task.id, task)">
               <p
                 *ngIf="
                   task.start ===
@@ -76,7 +75,7 @@
 
 <div *ngIf="showModalEdit">
   <app-modal-edit
-    (taskCreated)="onTaskCreated($event)"
+    (taskEdited)="onTaskEdited($event)"
     (modalEditClosed)="onModalEditClosed()"
     [dataToEdit]="dataToEdit"
   ></app-modal-edit>

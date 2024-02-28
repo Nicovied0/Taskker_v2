@@ -211,4 +211,29 @@ export class Calendar2Component implements OnInit {
     );
   }
   
+  onTaskEdited(data:any){
+    console.log(data)
+    console.log("soy el edited")
+    const editTask = {
+      start: data.start,
+      end: data.end,
+      title: data.title,
+      usercreator: this.userId,
+      status: data.status,
+      repeatDaily: data.repeatDaily,
+      meetingUrl: data.meetingUrl,
+      description: data.description,
+    };
+    const id = data.id
+    this.taskService.editTask2(id,editTask).subscribe(
+      (response) => {
+        console.log('Tarea editada con éxito:', response);
+        this.tasks = [];
+        this.getData();
+      },
+      (error) => {
+        console.error('Error al editar la tarea:', error);
+      }
+    );
+  }
 }

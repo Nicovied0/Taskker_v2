@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ModalEditComponent implements OnInit {
   @Input() dataToEdit: any = [];
-  @Output() taskCreated = new EventEmitter<any>();
+  @Output() taskEdited = new EventEmitter<any>();
   @Output() modalEditClosed = new EventEmitter<void>();
 
   ngOnInit() {
@@ -79,8 +79,9 @@ export class ModalEditComponent implements OnInit {
       console.log('soy yo');
     }
     console.log(this.dataToEdit.diaryEvent);
+    this.taskData.id = this.dataToEdit.id
     console.log(this.taskData);
-    this.taskCreated.emit(this.taskData);
+    this.taskEdited.emit(this.taskData);
     this.closeModal();
   }
 

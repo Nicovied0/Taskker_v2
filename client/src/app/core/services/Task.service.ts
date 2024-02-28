@@ -59,10 +59,9 @@ export class TaskService {
     const adjustedEventData = this.adjustEventData(updatedEvent);
     return this.http.put<any>(url, adjustedEventData);
   }
-  editTask2(eventId: string, updatedEvent: any): Observable<any> {
-    const url = this.apiUrl + '/' + eventId;
-    const adjustedEventData = this.adjustEventData(updatedEvent);
-    return this.http.put<any>(url, adjustedEventData);
+  editTask2(id: string, data: any): Observable<any> {
+    const url = this.apiUrl + '/' + id;
+    return this.http.put<any>(url, data);
   }
 
   deleteTask(id: string): Observable<any> {
