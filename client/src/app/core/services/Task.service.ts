@@ -49,7 +49,17 @@ export class TaskService {
     return this.http.post<any>(this.apiUrl, data);
   }
 
+  createTask2(data: any) {
+    console.log(data)
+    return this.http.post<any>(this.apiUrl, data);
+  }
+
   editTask(eventId: string, updatedEvent: any): Observable<any> {
+    const url = this.apiUrl + '/' + eventId;
+    const adjustedEventData = this.adjustEventData(updatedEvent);
+    return this.http.put<any>(url, adjustedEventData);
+  }
+  editTask2(eventId: string, updatedEvent: any): Observable<any> {
     const url = this.apiUrl + '/' + eventId;
     const adjustedEventData = this.adjustEventData(updatedEvent);
     return this.http.put<any>(url, adjustedEventData);

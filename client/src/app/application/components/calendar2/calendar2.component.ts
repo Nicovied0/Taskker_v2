@@ -27,6 +27,7 @@ export class Calendar2Component implements OnInit {
   cellClicked: boolean | undefined;
   selectedCol: number | undefined;
   selectedRow: number | undefined;
+  userId: any;
 
   constructor(
     private gridService: GridService,
@@ -41,26 +42,12 @@ export class Calendar2Component implements OnInit {
   }
 
   getData() {
-    const userId = this.authService.getUserDataFromLocalStorage().id;
-    this.taskService.getTasksByUserId2(userId).subscribe((tasks) => {
+    this.userId = this.authService.getUserDataFromLocalStorage().id;
+    this.taskService.getTasksByUserId2(this.userId).subscribe((tasks) => {
       this.tasks = tasks;
       console.log('tasks', this.tasks);
       this.generateArrayForAllTasks();
     });
-  }
-
-  setAutofocus() {
-    const currentDate = new Date();
-    if (this.gridData) {
-      this.currentDateIndex = this.gridData.findIndex((dayData) => {
-        const day = new Date(dayData.day);
-        return (
-          day.getDate() === currentDate.getDate() &&
-          day.getMonth() === currentDate.getMonth() &&
-          day.getFullYear() === currentDate.getFullYear()
-        );
-      });
-    }
   }
 
   loadGridData() {
@@ -76,6 +63,21 @@ export class Calendar2Component implements OnInit {
       }
     );
   }
+  deleteTask(id: any) {
+    console.log(id);
+    this.taskService.deleteTask(id).subscribe(
+      (response) => {
+        console.log('Tarea eliminada con éxito:', response);
+        this.tasks = [];
+        this.getData();
+      },
+      (error) => {
+        console.error('Error al eliminar la tarea:', error);
+        // Manejar el error aquí, por ejemplo, mostrar un mensaje de error al usuario
+      }
+    );
+  }
+  
 
   generateWeekDates() {
     const today = new Date();
@@ -125,11 +127,6 @@ export class Calendar2Component implements OnInit {
     const createTask = this.generateDatoToCreateTask(hour, dayData, arrayDate);
     this.dateToTask = createTask;
     this.showModal = true;
-  }
-
-  onTaskCreated(taskName: string) {
-    console.log('Tarea creada:', taskName);
-    this.showModal = false;
   }
 
   onModalClosed() {
@@ -189,4 +186,30 @@ export class Calendar2Component implements OnInit {
     this.showModalEdit = true;
     console.log(this.dataToEdit);
   }
+
+  onTaskCreated(data: any) {
+    const newTask = {
+      start: data.start,
+      end: data.end,
+      title: data.title,
+      usercreator: this.userId,
+      status: data.status,
+      repeatDaily: data.repeatDaily,
+      meetingUrl: data.meetingUrl,
+      description: data.description,
+    };
+  
+    this.taskService.createTask2(newTask).subscribe(
+      (response) => {
+        console.log('Nueva tarea creada con éxito:', response);
+        this.tasks = [];
+        this.getData();
+        this.showModal = false;
+      },
+      (error) => {
+        console.error('Error al crear la tarea:', error);
+      }
+    );
+  }
+  
 }

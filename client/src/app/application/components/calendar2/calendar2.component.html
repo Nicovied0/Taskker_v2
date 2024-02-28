@@ -23,6 +23,16 @@
       <div class="grid-cell" *ngFor="let dayData of gridData; let j = index">
         <div *ngIf="checkTaskForHour(hour.time, dayData)" class="grilla">
           <div *ngFor="let task of tasks" class="datas">
+            <div
+              (click)="deleteTask(task.id)"
+              *ngIf="
+                task.start ===
+                generateDatoToCreateTask(hour.time, dayData, weeks)
+              "
+            >
+              x
+            </div>
+
             <div (click)="editTaskIfExists(task.id, task)">
               <p
                 *ngIf="
