@@ -73,7 +73,6 @@ export class Calendar2Component implements OnInit {
       },
       (error) => {
         console.error('Error al eliminar la tarea:', error);
-        // Manejar el error aquí, por ejemplo, mostrar un mensaje de error al usuario
       }
     );
   }
