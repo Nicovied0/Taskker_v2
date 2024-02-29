@@ -17,6 +17,7 @@ import { Calendar2Component } from './components/calendar2/calendar2.component';
 import { NavigatorComponent } from './components/navigator/navigator.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ModalEditComponent } from './components/modal-edit/modal-edit.component';
+import { ModalViewComponent } from './components/modal-view/modal-view.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ModalEditComponent } from './components/modal-edit/modal-edit.component
     NavigatorComponent,
     ModalComponent,
     ModalEditComponent,
+    ModalViewComponent,
   ],
   imports: [
     CommonModule, // Agrega CommonModule aquí

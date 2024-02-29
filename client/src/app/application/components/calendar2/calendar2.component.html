@@ -22,23 +22,39 @@
       <div class="grid-cell" *ngFor="let dayData of gridData; let j = index">
         <div *ngIf="checkTaskForHour(hour.time, dayData)" class="grilla">
           <div *ngFor="let task of tasks" class="datas">
-            <button
-              class="close"
-              (click)="deleteTask(task.id)"
-              *ngIf="
-                task.start ===
-                generateDatoToCreateTask(hour.time, dayData, weeks)
-              "
-            >
-              x
-            </button>
+            <div class="divText" [ngClass]="getTaskStatusClass(task.backColor)">
+              <i
+                class="bi bi-eye-fill hover icon"
+                (click)="viewTask(task.id, task)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
 
-            <div (click)="editTaskIfExists(task.id, task)">
+              <i
+                class="bi bi-pencil hover icon"
+                (click)="editTaskIfExists(task.id, task)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+              <i
+                class="bi bi-trash3 hover trash"
+                (click)="deleteTask(task.id)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+
               <p
                 *ngIf="
                   task.start ===
                   generateDatoToCreateTask(hour.time, dayData, weeks)
                 "
+                class="ptext"
               >
                 {{ task.text }}
               </p>
@@ -79,4 +95,11 @@
     (modalEditClosed)="onModalEditClosed()"
     [dataToEdit]="dataToEdit"
   ></app-modal-edit>
+</div>
+
+<div *ngIf="showModalView">
+  <app-modal-view
+    (modalviewClosed)="modalviewClosed()"
+    [dataToView]="dataToView"
+  ></app-modal-view>
 </div>

@@ -14,6 +14,7 @@
   font-weight: bolder;
 }
 
+
 .grid-cell {
   border: 1px solid #ccc;
   min-width: 100px;
@@ -67,7 +68,6 @@
 }
 
 .grilla {
-  padding: 5px;
   text-align: center;
   cursor: pointer;
   width: 100%;
@@ -87,4 +87,54 @@
 }
 .close:hover {
   background-color: #d90000;
+}
+.divText {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+
+}
+.divText i {
+  display: none;
+}
+.icon {
+  color: white;
+  font-size: medium;
+  padding: 5px;
+}
+.trash {
+  color: red;
+  font-size: medium;
+  padding: 5px;
+
+}
+.divText:hover i {
+  display: inline-block;
+}
+.divText:hover p {
+  display: none;
+}
+.divText p{
+  padding: 5px;
+  color: white;
+}
+
+.green-background {
+  background-color:#6aa84f
+}
+
+.yellow-background {
+  background-color: #f1c232;
+}
+
+.red-background {
+  background-color: #cc4125;
+}
+
+.blue-background {
+  background-color: #2e78d6;
+}
+
+.grey-background {
+  background-color: #808080;
 }

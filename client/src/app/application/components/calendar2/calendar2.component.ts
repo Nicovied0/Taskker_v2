@@ -20,6 +20,8 @@ export class Calendar2Component implements OnInit {
   tasks: any[] = [];
   showModal = false;
   showModalEdit = false;
+  showModalView: boolean = false
+  dataToView:any
   dateToTask: any;
   dataToEdit: any;
   status: string = '';
@@ -134,6 +136,9 @@ export class Calendar2Component implements OnInit {
   onModalEditClosed() {
     this.showModalEdit = false;
   }
+  modalviewClosed() {
+    this.showModalView = false;
+  }
 
   generateArrayForAllTasks(): void {
     this.cellTasks = this.hours.map((hour) =>
@@ -235,5 +240,29 @@ export class Calendar2Component implements OnInit {
         console.error('Error al editar la tarea:', error);
       }
     );
+  }
+
+  viewTask(id: any, data: any) {
+    console.log(id, data);
+    this.dataToView = data;
+    this.showModalView = true;
+    console.log(this.dataToView);
+  }
+
+  getTaskStatusClass(status: string): string {
+    switch(status) {
+      case 'Completa':
+        return 'green-background';
+      case 'Alerta':
+        return 'yellow-background';
+      case 'Cancelada':
+        return 'red-background';
+      case "Agendada":
+        return 'blue-background';
+      case 'En proceso':
+        return 'grey-background';
+      default:
+        return '';
+    }
   }
 }
