@@ -43,6 +43,7 @@ export class ModalEditComponent implements OnInit {
       this.startDataToInput = this.getStartDate();
       console.log(this.startDate);
       this.startTime = this.dataToEdit.start;
+      this.endTime = this.dataToEdit.end;
       this.startDate = this.getStartDate();
 
       const startDateTime = new Date(this.startTime);
@@ -51,14 +52,18 @@ export class ModalEditComponent implements OnInit {
         .getMinutes()
         .toString()
         .padStart(2, '0');
+
+      const endDateTime = new Date(this.endTime);
+      const endHour = endDateTime.getHours().toString().padStart(2, '0');
+      const endMinute = endDateTime.getMinutes().toString().padStart(2, '0');
+      this.endTime = `${endHour}:${endMinute}`;
       this.startTime = `${startHour}:${startMinute}`;
+      console.log(this.endTime);
       console.log(this.startTime);
     }
   }
 
   createTask() {
-    console.log(this.dataToEdit.diaryEvent);
-
     if (this.repeatDaily === false) {
       this.taskData.start = this.dataToEdit.start;
       this.taskData.title = this.taskName;
@@ -78,8 +83,7 @@ export class ModalEditComponent implements OnInit {
       this.taskData.repeatDaily = true;
       console.log('soy yo');
     }
-    console.log(this.dataToEdit.diaryEvent);
-    this.taskData.id = this.dataToEdit.id
+    this.taskData.id = this.dataToEdit.id;
     console.log(this.taskData);
     this.taskEdited.emit(this.taskData);
     this.closeModal();
