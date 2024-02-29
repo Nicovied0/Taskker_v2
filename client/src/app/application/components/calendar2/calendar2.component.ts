@@ -144,6 +144,7 @@ export class Calendar2Component implements OnInit {
     this.cellTasks = this.hours.map((hour) =>
       this.gridData!.map((dayData) => this.checkTaskForHour(hour.time, dayData))
     );
+    console.log(this.cellTasks)
   }
 
   generateDatoToCreateTask(hour: any, dayData: any, arrayDate: any[]): any {
@@ -158,7 +159,6 @@ export class Calendar2Component implements OnInit {
     };
 
     const dayIndex = dayIndexMap[dayData.day];
-
     if (dayIndex !== undefined) {
       const dayNumber = arrayDate[dayIndex].dateComplet;
       const response = dayNumber + hour;
@@ -183,6 +183,7 @@ export class Calendar2Component implements OnInit {
     const data = this.generateDatoToCreateTask(hour, dayData, this.weeks);
     return this.tasks.some((task) => task.start === data);
   }
+  
 
   editTaskIfExists(id: any, data: any) {
     console.log(id, data);
@@ -249,6 +250,8 @@ export class Calendar2Component implements OnInit {
     console.log(this.dataToView);
   }
 
+
+  
   getTaskStatusClass(status: string): string {
     switch(status) {
       case 'Completa':
