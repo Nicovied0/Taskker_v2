@@ -4,12 +4,13 @@ import { TaskService } from 'src/app/core/services/Task.service';
 import { AuthService } from 'src/app/core/services/Auth.service';
 import { SearchDataService } from 'src/app/core/services/SearchData.service';
 
+
 @Component({
-  selector: 'app-calendar2',
-  templateUrl: './calendar2.component.html',
-  styleUrls: ['./calendar2.component.scss'],
+  selector: 'app-calendar3',
+  templateUrl: './calendar3.component.html',
+  styleUrls: ['./calendar3.component.scss']
 })
-export class Calendar2Component implements OnInit {
+export class Calendar3Component implements OnInit {
   gridData: any[] | undefined;
   hours: any[] = [];
   week = true;
@@ -48,6 +49,7 @@ export class Calendar2Component implements OnInit {
       console.log(ids)
       this.days = ids; 
     });
+    this.dataHourToDayId()
   }
 
   getData() {
@@ -58,7 +60,11 @@ export class Calendar2Component implements OnInit {
       this.generateArrayForAllTasks();
     });
   }
+  dayHourId: any;
 
+  
+
+  
   loadGridData() {
     this.gridService.getGridData().subscribe(
       (data) => {
@@ -66,14 +72,26 @@ export class Calendar2Component implements OnInit {
         if (this.gridData && this.gridData.length > 0) {
           this.hours = this.gridData[0].hours;
         }
-        console.log(this.gridData)
-        console.log(this.hours)
+        console.log(this.gridData);
+        console.log(this.hours);
+  
+        // Setear el id en cada grilla
+        this.gridData!.forEach(dayData => {
+          dayData.hours.forEach((hour: { id: { toString: () => any; }; }) => {
+            // Establecer el id en cada hora
+            hour.id = hour.id.toString(); // Convertir a cadena si es necesario
+          });
+        });
+  
+        // Llamar a dataHourToDayId después de cargar los datos de la cuadrícula
+        this.dataHourToDayId();
       },
       (error) => {
         console.error('Error al cargar los datos de la cuadrícula:', error);
       }
     );
   }
+  
   deleteTask(id: any) {
     console.log(id);
     this.taskService.deleteTask(id).subscribe(
@@ -98,7 +116,7 @@ export class Calendar2Component implements OnInit {
         date: firstDayOfWeek,
         dayName: this.getDayName(firstDayOfWeek),
         dateComplet: this.getDayNumber(firstDayOfWeek),
-      },
+      }, 
     ];
 
     for (let i = 1; i < 7; i++) {
@@ -134,6 +152,7 @@ export class Calendar2Component implements OnInit {
 
   createTask(hour: any, dayData: any, arrayDate: any) {
     const createTask = this.generateDatoToCreateTask(hour, dayData, arrayDate);
+  
     this.dateToTask = createTask;
     this.showModal = true;
   }
@@ -275,4 +294,29 @@ export class Calendar2Component implements OnInit {
         return '';
     }
   }
+
+  dataHourToDayId() {
+    if (!this.gridData) {
+      console.error('No hay datos de la cuadrícula para procesar.');
+      return;
+    }
+  
+    this.dayHourId = {};
+  
+    // Recorrer cada día en gridData
+    this.gridData.forEach(dayData => {
+      const dayId = dayData.day; 
+      const hourIds: any[] = [];
+  
+      dayData.hours.forEach((hour: { id: any; }) => {
+        hourIds.push(hour.id);
+      });
+  
+      this.dayHourId[dayId] = hourIds;
+    });
+  
+    console.log('dayHourId:', this.dayHourId);
+  }
+  
+  
 }

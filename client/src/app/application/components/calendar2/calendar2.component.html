@@ -16,34 +16,128 @@
     </div>
   </div>
 
-  
-
-
   <div class="internal-row">
-    <div class="grid-row" *ngFor="let hour of hours; index as i" >
+    <div class="grid-row" *ngFor="let hour of hours; index as i">
       <div class="grid-time">{{ hour.title }}</div>
-      <div class="grid-cell" *ngFor="let dayData of gridData; let j = index" >
+      <div class="grid-cell" *ngFor="let dayData of gridData; let j = index">
         <div *ngIf="checkTaskForHour(hour.time, dayData)" class="grilla">
-          <div *ngFor="let task of tasks" class="datas" >
+          <div *ngFor="let task of tasks" class="datas">
             <div class="divText" [ngClass]="getTaskStatusClass(task.backColor)">
-              <i class="bi bi-eye-fill hover icon" (click)="viewTask(task.id, task)" *ngIf="task.start === generateDatoToCreateTask(hour.time, dayData, weeks)"></i>
-              <i class="bi bi-pencil hover icon" (click)="editTaskIfExists(task.id, task)" *ngIf="task.start === generateDatoToCreateTask(hour.time, dayData, weeks)"></i>
-              <i class="bi bi-trash3 hover trash" (click)="deleteTask(task.id)" *ngIf="task.start === generateDatoToCreateTask(hour.time, dayData, weeks)"></i>
-              <p *ngIf="task.start === generateDatoToCreateTask(hour.time, dayData, weeks)" class="ptext">{{ task.text }}</p>
+              <i
+                class="bi bi-eye-fill hover icon"
+                (click)="viewTask(task.id, task)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+              <i
+                class="bi bi-pencil hover icon"
+                (click)="editTaskIfExists(task.id, task)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+              <i
+                class="bi bi-trash3 hover trash"
+                (click)="deleteTask(task.id)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+              <p
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+                class="ptext"
+              >
+                {{ task.text }}
+              </p>
             </div>
           </div>
         </div>
-        <div *ngIf="!checkTaskForHour(hour.time, dayData)" (click)="createTask(hour.time, dayData, weeks)" class="grilla">
+
+        <div
+          *ngIf="!checkTaskForHour(hour.time, dayData)"
+          (click)="createTask(hour.time, dayData, weeks)"
+          class="grilla"
+        >
           <div></div>
         </div>
       </div>
     </div>
   </div>
-  
 </div>
 
 <div class="grid" *ngIf="month">
   <h2>spy month</h2>
+  <div class="grid-header">
+    <div class="grid-cell"></div>
+    <div class="grid-days days" *ngFor="let dayData of gridData; let i = index">
+      <div class="day-with-hover">
+        <span class="hover-day">{{ dayData.day }}</span>
+        <span class="hover-text">{{ weeks[i]?.dayName }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="internal-row">
+    <div class="grid-row" *ngFor="let hour of hours; index as i">
+      <div class="grid-time">{{ hour.title }}</div>
+      <div class="grid-cell" *ngFor="let dayData of gridData; let j = index">
+        <div *ngIf="checkTaskForHour(hour.time, dayData)" class="grilla">
+          <p>{{dayData.id}}</p>
+          <div *ngFor="let task of tasks" class="datas">
+            <div class="divText" [ngClass]="getTaskStatusClass(task.backColor)">
+              <i
+                class="bi bi-eye-fill hover icon"
+                (click)="viewTask(task.id, task)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+              <i
+                class="bi bi-pencil hover icon"
+                (click)="editTaskIfExists(task.id, task)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+              <i
+                class="bi bi-trash3 hover trash"
+                (click)="deleteTask(task.id)"
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+              ></i>
+              <p
+                *ngIf="
+                  task.start ===
+                  generateDatoToCreateTask(hour.time, dayData, weeks)
+                "
+                class="ptext"
+              >
+                {{ task.text }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          *ngIf="!checkTaskForHour(hour.time, dayData)"
+          (click)="createTask(hour.time, dayData, weeks)"
+          class="grilla"
+        >
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="grid" *ngIf="day">

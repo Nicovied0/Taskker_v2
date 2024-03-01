@@ -1,0 +1,141 @@
+.grid {
+    display: grid;
+    height: 80vh;
+  }
+  
+  .grid-header {
+    display: grid;
+    grid-template-columns: 100px repeat(7, 1fr);
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    margin-right: 17px;
+    background: #3c78d8;
+    color: white;
+    font-weight: bolder;
+  }
+  
+  
+  .grid-cell {
+    border: 1px solid #ccc;
+    min-width: 100px;
+  }
+  
+  .grid-days {
+    border: 1px solid #ccc;
+    padding: 5px;
+    min-width: 100px;
+  }
+  .days {
+    padding: 10px;
+  }
+  .internal-row {
+    overflow: scroll;
+  }
+  .grid-row {
+    display: grid;
+    grid-template-columns: 100px repeat(7, 1fr);
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .grid-time {
+    border-right: 1px solid #ccc;
+    padding: 5px;
+    text-align: center;
+    background-color: #80808012;
+  }
+  
+  .hover-text {
+    display: none;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .day-with-hover:hover .hover-text {
+    display: inline-block;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  
+  .day-with-hover:hover .hover-day {
+    display: none;
+  }
+  .datas {
+    display: flex;
+    flex-direction: row-reverse;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+  }
+  
+  .grilla {
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+  .close {
+    color: white;
+    background-color: red;
+    border: none;
+    padding: 0px 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .close:hover {
+    background-color: #d90000;
+  }
+  .divText {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  
+  }
+  .divText i {
+    display: none;
+  }
+  .icon {
+    color: white;
+    font-size: medium;
+    padding: 5px;
+  }
+  .trash {
+    color: red;
+    font-size: medium;
+    padding: 5px;
+  
+  }
+  .divText:hover i {
+    display: inline-block;
+  }
+  .divText:hover p {
+    display: none;
+  }
+  .divText p{
+    padding: 5px;
+    color: white;
+  }
+  
+  .green-background {
+    background-color:#6aa84f
+  }
+  
+  .yellow-background {
+    background-color: #f1c232;
+  }
+  
+  .red-background {
+    background-color: #cc4125;
+  }
+  
+  .blue-background {
+    background-color: #2e78d6;
+  }
+  
+  .grey-background {
+    background-color: #808080;
+  }
+  

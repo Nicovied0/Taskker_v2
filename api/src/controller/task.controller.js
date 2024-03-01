@@ -80,7 +80,8 @@ async function updateTaskById(req, res) {
         start,
         end,
         status,
-        diaryEvent
+        diaryEvent,
+        gridId
       },
       { new: true }
     );
@@ -123,7 +124,8 @@ async function createTask(req, res) {
       end,
       status,
       usercreator,
-      diaryEvent
+      diaryEvent,
+      gridId,
     });
 
     const userId = usercreator;

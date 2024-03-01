@@ -27,6 +27,7 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     this.startDate = this.dateToTask;
+    console.log(this.dateToTask)
     this.comproveTypeDate();
     console.log(this.repeatDaily);
   }
@@ -51,6 +52,7 @@ export class ModalComponent implements OnInit {
       this.taskData.repeatDaily = true;
       console.log('soy yo');
     }
+    console.log(this.taskData)
     this.taskCreated.emit(this.taskData);
     this.closeModal();
   }

@@ -11,22 +11,26 @@ const TaskSchema = new mongoose.Schema({
   meetingUrl: {
     type: String,
   },
-  start:{
-    type:String,
+  start: {
+    type: String,
   },
-  end:{
-    type:String
+  end: {
+    type: String,
   },
   status: {
     type: String,
-    default:"Agendada"
+    default: "Agendada",
   },
-  diaryEvent:{
-    type:Boolean,
-    default:false
+  diaryEvent: {
+    type: Boolean,
+    default: false,
   },
   usercreator: {
     type: String,
+  },
+  gridId: {
+    type: Array,
+    require: true,
   },
   createdAt: {
     type: Date,
