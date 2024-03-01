@@ -32,6 +32,9 @@ const TaskSchema = new mongoose.Schema({
     type: Array,
     require: true,
   },
+  daysOfRepeat: {
+    type: Array,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

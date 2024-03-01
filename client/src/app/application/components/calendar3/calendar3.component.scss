@@ -67,7 +67,7 @@
     justify-content: space-around;
   }
   
-  .grilla {
+  .grilla,.grilla2 {
     text-align: center;
     cursor: pointer;
     width: 100%;
@@ -84,6 +84,9 @@
     font-size: 16px;
     cursor: pointer;
     border-radius: 2px;
+  }
+  .task{
+    width: 100%;
   }
   .close:hover {
     background-color: #d90000;
@@ -120,22 +123,27 @@
   }
   
   .green-background {
-    background-color:#6aa84f
+    background-color:#6aa84f;
+    min-height: 8px
   }
   
   .yellow-background {
     background-color: #f1c232;
+    min-height: 8px
   }
   
   .red-background {
     background-color: #cc4125;
+    min-height: 8px
   }
   
   .blue-background {
     background-color: #2e78d6;
+    min-height: 8px
   }
   
   .grey-background {
     background-color: #808080;
+    min-height: 8px
   }
   

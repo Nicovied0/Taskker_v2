@@ -10,28 +10,44 @@ export class ModalEditComponent implements OnInit {
   @Output() taskEdited = new EventEmitter<any>();
   @Output() modalEditClosed = new EventEmitter<void>();
 
+  
   ngOnInit() {
     this.setData();
     this.generateStartTimeOptions();
     this.generateEndTimeOptions();
   }
-
+  
   constructor() {}
-
+  
+  repeatDaysOptions: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
   taskName: any;
   taskDescription: any;
   meetingUrl: any;
+  
   repeatDaily: any;
   startDate: string = '';
   endDate: string = '';
   startTime: string = '';
   endTime: string = '';
+  selectedDays: { [key: string]: boolean } = {
+    Lunes: false,
+    Martes: false,
+    Miercoles: false,
+    Jueves: false,
+    Viernes: false,
+    Sabado: false,
+    Domingo: false
+  };
+  
   startTimeOptions: string[] = [];
   startDataToInput: any = '';
   endTimeOptions: string[] = [];
   taskData: any = {
     status: 'Agendada',
   };
+
+  lastDay: string | undefined;
+
 
   setData() {
     if (this.dataToEdit) {
@@ -100,9 +116,41 @@ export class ModalEditComponent implements OnInit {
     }
   }
 
-  x() {
-    console.log(this.taskData);
-  }
+
+x() {
+  this.setData();
+  
+  const lastSelectedDays = Object.keys(this.selectedDays).filter(key => this.selectedDays[key]);
+  this.lastDay = lastSelectedDays[lastSelectedDays.length - 1]; 
+
+  console.log(this.lastDay);
+
+  this.getDayActual();
+}
+
+getDayActual() {
+
+  const currentDate = new Date();
+  let currentDay = currentDate.getDay();
+  
+  const daysToAdd = (8 - currentDay) % 7;
+  
+  const nextMondayDate = new Date(currentDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+  
+  const year = nextMondayDate.getFullYear();
+  const month = (nextMondayDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = nextMondayDate.getDate().toString().padStart(2, '0');
+  
+  const formattedDate = `${year}-${month}-${day}`;
+
+  this.endDate = formattedDate;
+  
+  this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
+  console.log(this.taskData.end)
+  // this.createTask();
+}
+
+
 
   generateEndTimeOptions() {
     this.endTimeOptions = [];

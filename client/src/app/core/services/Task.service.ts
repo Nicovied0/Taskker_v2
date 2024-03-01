@@ -40,6 +40,8 @@ export class TaskService {
           backColor: task.status,
           meetingUrl: task.meetingUrl,
           diaryEvent: task.diaryEvent,
+          daysOfRepeat: task.daysOfRepeat,
+          gridId: task.gridId,
         }));
       })
     );
@@ -50,7 +52,7 @@ export class TaskService {
   }
 
   createTask2(data: any) {
-    console.log(data)
+    console.log(data);
     return this.http.post<any>(this.apiUrl, data);
   }
 

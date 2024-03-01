@@ -1,95 +1,119 @@
 <div>
-  
   <div class="grid" *ngIf="week">
     <div class="grid-header">
       <div class="grid-cell"></div>
-      <div class="grid-days days" *ngFor="let dayData of gridData; let i = index">
+      <div
+        class="grid-days days"
+        *ngFor="let dayData of gridData; let i = index"
+      >
         <div class="day-with-hover">
           <span class="hover-day">{{ dayData.day }}</span>
           <span class="hover-text">{{ weeks[i]?.dayName }}</span>
         </div>
       </div>
     </div>
-  
+
     <div class="internal-row">
       <div class="grid-row" *ngFor="let hour of hours; index as i">
         <div class="grid-time">{{ hour.title }}</div>
         <div class="grid-cell" *ngFor="let dayData of gridData; let j = index">
-          <p>{{ dayData.hours[i].id }}</p> <!-- Mostrar el ID de la hora -->
-          <div *ngIf="checkTaskForHour(hour.time, dayData)" class="grilla">
-            <div *ngFor="let task of tasks" class="datas">
-              <div class="divText" [ngClass]="getTaskStatusClass(task.backColor)">
-                <i
-                  class="bi bi-eye-fill hover icon"
-                  (click)="viewTask(task.id, task)"
-                  *ngIf="
-                    task.start ===
-                    generateDatoToCreateTask(hour.time, dayData, weeks)
-                  "
-                ></i>
-                <i
-                  class="bi bi-pencil hover icon"
-                  (click)="editTaskIfExists(task.id, task)"
-                  *ngIf="
-                    task.start ===
-                    generateDatoToCreateTask(hour.time, dayData, weeks)
-                  "
-                ></i>
-                <i
-                  class="bi bi-trash3 hover trash"
-                  (click)="deleteTask(task.id)"
-                  *ngIf="
-                    task.start ===
-                    generateDatoToCreateTask(hour.time, dayData, weeks)
-                  "
-                ></i>
-                <p
-                  *ngIf="
-                    task.start ===
-                    generateDatoToCreateTask(hour.time, dayData, weeks)
-                  "
-                  class="ptext"
+          <!-- <p>{{ dayData.hours[i].id }}</p> -->
+          <div
+            *ngIf="noCoincideConNingunTask(dayData.hours[i].id)"
+            (click)="createTask(hour.time, dayData, weeks, dayData.hours[i].id)"
+            class="grilla2"
+          >
+            <!-- codes{{dayData.hours[i].id}} -->
+          </div>
+
+          <div class="grilla">
+            <div *ngFor="let task of tasks; let h = index">
+              <div *ngIf="comprobate(dayData.hours[i].id, task)">
+                <div
+                  class="divText"
+                  [ngClass]="getTaskStatusClass(task.backColor)"
+				  
                 >
-                  {{ task.text }}
-                </p>
+                  <i
+                    class="bi bi-eye-fill hover icon"
+                    (click)="viewTask(task.id, task, dayData.hours[i].id)"
+                    *ngIf="
+                      task.start ===
+                      generateDatoToCreateTask(hour.time, dayData, weeks)
+                    "
+                  ></i>
+                  <i
+                    class="bi bi-pencil hover icon"
+                    (click)="editTaskIfExists(task.id, task)"
+                    *ngIf="
+                      task.start ===
+                      generateDatoToCreateTask(hour.time, dayData, weeks)
+                    "
+                  ></i>
+                  <i
+                    class="bi bi-trash3 hover trash"
+                    (click)="deleteTask(task.id)"
+                    *ngIf="
+                      task.start ===
+                      generateDatoToCreateTask(hour.time, dayData, weeks)
+                    "
+                  ></i>
+                  <p
+                    *ngIf="
+                      task.start ===
+                      generateDatoToCreateTask(hour.time, dayData, weeks)
+                    "
+                    class="ptext"
+                  >
+                    {{ task.text }}
+                  </p>
+                </div>
+
+                <div *ngIf="comprobate2(dayData.hours[i].id, task)">
+                  <div
+                    *ngIf="generateArrayToTaskUbications(dayData.hours[i].id)"
+                  >
+                    <div *ngIf="!noCoincideConNingunTask(dayData.hours[i].id)">
+                      <div
+                        [ngClass]="getTaskStatusClass(task.backColor)"
+                      >
+                        &nbsp;
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-  
-          <div
-            *ngIf="!checkTaskForHour(hour.time, dayData)"
-            (click)="createTask(hour.time, dayData, weeks)"
-            class="grilla"
-          >
-            <div></div>
-          </div>
         </div>
+      </div>
+
+      <div *ngIf="showModal">
+        <app-modal
+          (taskCreated)="onTaskCreated($event)"
+          (modalClosed)="onModalClosed()"
+          [dateToTask]="dateToTask"
+          [idGridNewTask]="idGridNewTask"
+        >
+        </app-modal>
+      </div>
+
+      <div *ngIf="showModalEdit">
+        <app-modal-edit
+          (taskEdited)="onTaskEdited($event)"
+          (modalEditClosed)="onModalEditClosed()"
+          [dataToEdit]="dataToEdit"
+        >
+        </app-modal-edit>
+      </div>
+
+      <div *ngIf="showModalView">
+        <app-modal-view
+          (modalviewClosed)="modalviewClosed()"
+          [dataToView]="dataToView"
+        >
+        </app-modal-view>
       </div>
     </div>
   </div>
-  
-  
-  
-  <div *ngIf="showModal">
-    <app-modal
-      (taskCreated)="onTaskCreated($event)"
-      (modalClosed)="onModalClosed()"
-      [dateToTask]="dateToTask"
-    ></app-modal>
-  </div>
-  
-  <div *ngIf="showModalEdit">
-    <app-modal-edit
-      (taskEdited)="onTaskEdited($event)"
-      (modalEditClosed)="onModalEditClosed()"
-      [dataToEdit]="dataToEdit"
-    ></app-modal-edit>
-  </div>
-  
-  <div *ngIf="showModalView">
-    <app-modal-view
-      (modalviewClosed)="modalviewClosed()"
-      [dataToView]="dataToView"
-    ></app-modal-view>
-  </div>
-  
+</div>

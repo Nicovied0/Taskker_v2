@@ -22,6 +22,7 @@ export class ModalComponent implements OnInit {
   };
 
   @Input() dateToTask: string = '';
+  @Input() idGridNewTask : any;
   @Output() taskCreated = new EventEmitter<any>();
   @Output() modalClosed = new EventEmitter<void>();
 
@@ -30,6 +31,7 @@ export class ModalComponent implements OnInit {
     console.log(this.dateToTask)
     this.comproveTypeDate();
     console.log(this.repeatDaily);
+    console.log(this.idGridNewTask)
   }
 
   createTask() {
