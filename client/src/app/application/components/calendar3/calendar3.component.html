@@ -32,7 +32,6 @@
                 <div
                   class="divText"
                   [ngClass]="getTaskStatusClass(task.backColor)"
-				  
                 >
                   <i
                     class="bi bi-eye-fill hover icon"
@@ -74,9 +73,7 @@
                     *ngIf="generateArrayToTaskUbications(dayData.hours[i].id)"
                   >
                     <div *ngIf="!noCoincideConNingunTask(dayData.hours[i].id)">
-                      <div
-                        [ngClass]="getTaskStatusClass(task.backColor)"
-                      >
+                      <div [ngClass]="getTaskStatusClass(task.backColor)">
                         &nbsp;
                       </div>
                     </div>

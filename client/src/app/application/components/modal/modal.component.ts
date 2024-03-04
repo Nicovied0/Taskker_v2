@@ -1,4 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  getPositionInEndTimeOptions,
+  generateArrayToIDDate,
+} from './gridFunction';
 
 @Component({
   selector: 'app-modal',
@@ -22,19 +26,21 @@ export class ModalComponent implements OnInit {
   };
 
   @Input() dateToTask: string = '';
-  @Input() idGridNewTask : any;
+  @Input() idGridNewTask: any;
   @Output() taskCreated = new EventEmitter<any>();
   @Output() modalClosed = new EventEmitter<void>();
 
   ngOnInit() {
     this.startDate = this.dateToTask;
-    console.log(this.dateToTask)
+    console.log(this.dateToTask);
     this.comproveTypeDate();
     console.log(this.repeatDaily);
-    console.log(this.idGridNewTask)
+    console.log(this.idGridNewTask);
   }
 
   createTask() {
+    this.executeGridFunction();
+
     if (this.repeatDaily === false) {
       this.taskData.start = this.startDate;
       this.taskData.title = this.taskName;
@@ -42,6 +48,7 @@ export class ModalComponent implements OnInit {
       this.taskData.meetingUrl = this.meetingUrl;
       this.taskData.repeatDaily = this.repeatDaily;
       this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
+      this.taskData.gridId = this.arrayGridPositions;
     }
     if (this.repeatDaily === true) {
       this.taskData.start = this.startDate;
@@ -54,7 +61,7 @@ export class ModalComponent implements OnInit {
       this.taskData.repeatDaily = true;
       console.log('soy yo');
     }
-    console.log(this.taskData)
+    console.log(this.taskData);
     this.taskCreated.emit(this.taskData);
     this.closeModal();
   }
@@ -75,6 +82,7 @@ export class ModalComponent implements OnInit {
       this.generateEndTimeOptions();
     }
   }
+  
   generateStartTimeOptions() {
     for (let hour = 6; hour <= 23; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
@@ -115,5 +123,21 @@ export class ModalComponent implements OnInit {
   onInputChange() {
     console.log('El valor del campo ha cambiado: ' + this.repeatDaily);
     this.comproveTypeDate();
+  }
+
+  arrayGridPositions: string[] = [];
+
+  executeGridFunction() {
+    const gridStart = Number(this.idGridNewTask);
+    const endTimeOptions = this.endTimeOptions;
+    const position = getPositionInEndTimeOptions(
+      this.endTime,
+      gridStart,
+      endTimeOptions
+    );
+    this.arrayGridPositions = generateArrayToIDDate(gridStart, position);
+    console.log(this.arrayGridPositions);
+    this.taskData.gridId = this.arrayGridPositions;
+    console.log(this.taskData);
   }
 }

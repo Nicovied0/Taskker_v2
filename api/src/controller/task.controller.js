@@ -134,6 +134,7 @@ async function createTask(req, res) {
       usercreator,
       diaryEvent,
       daysOfRepeat,
+      gridId
     } = req.body;
     const task = new Task({
       title,

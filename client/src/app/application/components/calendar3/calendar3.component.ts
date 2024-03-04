@@ -245,6 +245,7 @@ export class Calendar3Component implements OnInit {
       repeatDaily: data.repeatDaily,
       meetingUrl: data.meetingUrl,
       description: data.description,
+      gridId:data.gridId
     };
 
     this.taskService.createTask2(newTask).subscribe(
@@ -272,6 +273,7 @@ export class Calendar3Component implements OnInit {
       repeatDaily: data.repeatDaily,
       meetingUrl: data.meetingUrl,
       description: data.description,
+      gridId:data.gridId
     };
     const id = data.id;
     this.taskService.editTask2(id, editTask).subscribe(
@@ -312,11 +314,11 @@ export class Calendar3Component implements OnInit {
     for (let i = 0; i < this.tasks.length; i++) {
       for (let j = 0; j < this.tasks[i].gridId.length; j++) {
         if (id === this.tasks[i].gridId[j]) {
-          return false; // Si se encuentra coincidencia, retorna false
+          return false; 
         }
       }
     }
-    return true; // Si no se encuentra coincidencia, retorna true
+    return true; 
   }
 
   getTaskStatusClass(status: string): string {
@@ -335,9 +337,11 @@ export class Calendar3Component implements OnInit {
         return '';
     }
   }
+
   comprobarTareas(hourId: any): boolean {
     return this.tasks.some((task) => this.comprobate(hourId, task));
   }
+
   dataHourToDayId() {
     if (!this.gridData) {
       console.error('No hay datos de la cuadrícula para procesar.');
