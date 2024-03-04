@@ -43,7 +43,7 @@
                   ></i>
                   <i
                     class="bi bi-pencil hover icon"
-                    (click)="editTaskIfExists(task.id, task)"
+                    (click)="editTaskIfExists(task.id, task,dayData.hours[i].id)"
                     *ngIf="
                       task.start ===
                       generateDatoToCreateTask(hour.time, dayData, weeks)
@@ -100,6 +100,7 @@
           (taskEdited)="onTaskEdited($event)"
           (modalEditClosed)="onModalEditClosed()"
           [dataToEdit]="dataToEdit"
+          [idGridNewTask]="idGridNewTask"
         >
         </app-modal-edit>
       </div>

@@ -228,9 +228,10 @@ export class Calendar3Component implements OnInit {
     return this.tasks.some((task) => task.start === data);
   }
 
-  editTaskIfExists(id: any, data: any) {
+  editTaskIfExists(id: any, data: any,idGrid: any) {
     console.log(id, data);
     this.dataToEdit = data;
+    this.idGridNewTask = idGrid;
     this.showModalEdit = true;
     console.log(this.dataToEdit);
   }
@@ -264,6 +265,8 @@ export class Calendar3Component implements OnInit {
   onTaskEdited(data: any) {
     console.log(data);
     console.log('soy el edited');
+
+
     const editTask = {
       start: data.start,
       end: data.end,

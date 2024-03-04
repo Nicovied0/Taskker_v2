@@ -79,6 +79,7 @@ async function updateTaskById(req, res) {
       status,
       diaryEvent,
       daysOfRepeat,
+      gridId
     } = req.body;
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,

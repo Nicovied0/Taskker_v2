@@ -28,23 +28,44 @@ export class TaskService {
       })
     );
   }
+
   getTasksByUserId2(userId: string): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + '/user/' + userId).pipe(
+    const [monday, sunday] = this.getMondayAndSundayOfCurrentWeek();
+
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`).pipe(
       map((tasks: any[]) => {
-        return tasks.map((task) => ({
-          id: task._id,
-          text: task.title,
-          description: task.description,
-          start: task.start,
-          end: task.end,
-          backColor: task.status,
-          meetingUrl: task.meetingUrl,
-          diaryEvent: task.diaryEvent,
-          daysOfRepeat: task.daysOfRepeat,
-          gridId: task.gridId,
-        }));
+        return tasks
+          .filter((task) => {
+            const taskEndDate = new Date(task.end);
+            return taskEndDate >= monday && taskEndDate <= sunday;
+          })
+          .map((task) => ({
+            id: task._id,
+            text: task.title,
+            description: task.description,
+            start: task.start,
+            end: task.end,
+            backColor: task.status,
+            meetingUrl: task.meetingUrl,
+            diaryEvent: task.diaryEvent,
+            daysOfRepeat: task.daysOfRepeat,
+            gridId: task.gridId,
+          }));
       })
     );
+  }
+
+  private getMondayAndSundayOfCurrentWeek(): Date[] {
+    const currentDate = new Date();
+    const currentDayOfWeek = currentDate.getDay();
+
+    const monday = new Date(currentDate);
+    monday.setDate(currentDate.getDate() - currentDayOfWeek + 1);
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    return [monday, sunday];
   }
 
   createTask(data: any) {

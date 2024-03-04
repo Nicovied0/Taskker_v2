@@ -1,4 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  getPositionInEndTimeOptions,
+  generateArrayToIDDate,
+} from '../modal/gridFunction';
 
 @Component({
   selector: 'app-modal-edit',
@@ -7,6 +11,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ModalEditComponent implements OnInit {
   @Input() dataToEdit: any = [];
+  @Input() idGridNewTask: any;
   @Output() taskEdited = new EventEmitter<any>();
   @Output() modalEditClosed = new EventEmitter<void>();
 
@@ -15,6 +20,7 @@ export class ModalEditComponent implements OnInit {
     this.setData();
     this.generateStartTimeOptions();
     this.generateEndTimeOptions();
+    console.log(this.idGridNewTask)
   }
   
   constructor() {}
@@ -80,6 +86,8 @@ export class ModalEditComponent implements OnInit {
   }
 
   createTask() {
+    this.executeGridFunction();
+
     if (this.repeatDaily === false) {
       this.taskData.start = this.dataToEdit.start;
       this.taskData.title = this.taskName;
@@ -87,6 +95,7 @@ export class ModalEditComponent implements OnInit {
       this.taskData.meetingUrl = this.meetingUrl;
       this.taskData.repeatDaily = this.repeatDaily;
       this.taskData.end = this.startDate + 'T' + this.endTime + ':00';
+      this.taskData.gridId = this.arrayGridPositions;
       console.log('so easy', this.taskData);
     }
     if (this.repeatDaily === true) {
@@ -97,6 +106,7 @@ export class ModalEditComponent implements OnInit {
       this.taskData.repeatDaily = this.repeatDaily;
       this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
       this.taskData.repeatDaily = true;
+      this.taskData.gridId = this.arrayGridPositions;
       console.log('soy yo');
     }
     this.taskData.id = this.dataToEdit.id;
@@ -189,6 +199,22 @@ getDayActual() {
 
   onInputChange() {
     console.log('El valor del campo ha cambiado: ' + this.repeatDaily);
+    console.log(this.taskData);
+  }
+
+  arrayGridPositions: string[] = [];
+
+  executeGridFunction() {
+    const gridStart = Number(this.idGridNewTask);
+    const endTimeOptions = this.endTimeOptions;
+    const position = getPositionInEndTimeOptions(
+      this.endTime,
+      gridStart,
+      endTimeOptions
+    );
+    this.arrayGridPositions = generateArrayToIDDate(gridStart, position);
+    console.log(this.arrayGridPositions);
+    this.taskData.gridId = this.arrayGridPositions;
     console.log(this.taskData);
   }
 }
