@@ -7,7 +7,14 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
-
+.inputs{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}  .divsinput{
+  margin-right: 15px;
+  min-width: 74px;
+}
 .modal-container {
   position: fixed;
   top: 50%;

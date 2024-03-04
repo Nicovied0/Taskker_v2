@@ -24,6 +24,25 @@ export class ModalComponent implements OnInit {
   taskData: any = {
     status: 'Agendada',
   };
+  selectedDays: { [key: string]: boolean } = {
+    Lunes: false,
+    Martes: false,
+    Miercoles: false,
+    Jueves: false,
+    Viernes: false,
+    Sabado: false,
+    Domingo: false,
+  };
+
+  repeatDaysOptions: string[] = [
+    'Lunes',
+    'Martes',
+    'Miercoles',
+    'Jueves',
+    'Viernes',
+    'Sabado',
+    'Domingo',
+  ];
 
   @Input() dateToTask: string = '';
   @Input() idGridNewTask: any;

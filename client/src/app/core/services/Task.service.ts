@@ -32,6 +32,9 @@ export class TaskService {
   getTasksByUserId2(userId: string): Observable<any[]> {
     const [monday, sunday] = this.getMondayAndSundayOfCurrentWeek();
 
+    console.log(monday)
+    console.log(sunday)
+
     return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`).pipe(
       map((tasks: any[]) => {
         return tasks
@@ -61,12 +64,15 @@ export class TaskService {
 
     const monday = new Date(currentDate);
     monday.setDate(currentDate.getDate() - currentDayOfWeek + 1);
+    monday.setHours(0, 0, 0, 0); // Establecer hora a las 00:00
 
     const sunday = new Date(monday);
     sunday.setDate(monday.getDate() + 6);
+    sunday.setHours(23, 59, 59, 999); // Establecer hora a las 23:59:59.999
 
     return [monday, sunday];
-  }
+}
+
 
   createTask(data: any) {
     return this.http.post<any>(this.apiUrl, data);

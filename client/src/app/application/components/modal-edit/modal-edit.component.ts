@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   getPositionInEndTimeOptions,
   generateArrayToIDDate,
+  generateWeekTask
 } from '../modal/gridFunction';
 
 @Component({
@@ -15,21 +16,28 @@ export class ModalEditComponent implements OnInit {
   @Output() taskEdited = new EventEmitter<any>();
   @Output() modalEditClosed = new EventEmitter<void>();
 
-  
   ngOnInit() {
     this.setData();
     this.generateStartTimeOptions();
     this.generateEndTimeOptions();
-    console.log(this.idGridNewTask)
+    console.log(this.idGridNewTask);
   }
-  
+
   constructor() {}
-  
-  repeatDaysOptions: string[] = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+
+  repeatDaysOptions: string[] = [
+    'Lunes',
+    'Martes',
+    'Miercoles',
+    'Jueves',
+    'Viernes',
+    'Sabado',
+    'Domingo',
+  ];
   taskName: any;
   taskDescription: any;
   meetingUrl: any;
-  
+  daysOfRepeat: any[] = [];
   repeatDaily: any;
   startDate: string = '';
   endDate: string = '';
@@ -42,9 +50,9 @@ export class ModalEditComponent implements OnInit {
     Jueves: false,
     Viernes: false,
     Sabado: false,
-    Domingo: false
+    Domingo: false,
   };
-  
+
   startTimeOptions: string[] = [];
   startDataToInput: any = '';
   endTimeOptions: string[] = [];
@@ -54,7 +62,6 @@ export class ModalEditComponent implements OnInit {
 
   lastDay: string | undefined;
 
-
   setData() {
     if (this.dataToEdit) {
       this.taskName = this.dataToEdit.text || '';
@@ -63,7 +70,6 @@ export class ModalEditComponent implements OnInit {
       this.repeatDaily = this.dataToEdit.diaryEvent || false;
       this.startTime = this.dataToEdit.start;
       this.startDataToInput = this.getStartDate();
-      console.log(this.startDate);
       this.startTime = this.dataToEdit.start;
       this.endTime = this.dataToEdit.end;
       this.startDate = this.getStartDate();
@@ -86,9 +92,9 @@ export class ModalEditComponent implements OnInit {
   }
 
   createTask() {
-    this.executeGridFunction();
-
     if (this.repeatDaily === false) {
+      this.x()
+      this.executeGridFunction()
       this.taskData.start = this.dataToEdit.start;
       this.taskData.title = this.taskName;
       this.taskData.description = this.taskDescription;
@@ -98,15 +104,18 @@ export class ModalEditComponent implements OnInit {
       this.taskData.gridId = this.arrayGridPositions;
       console.log('so easy', this.taskData);
     }
+
     if (this.repeatDaily === true) {
+      this.x()
+      this.executeGridFunction()
+      const array =  this.executeGridFunction()
+
       this.taskData.start = this.dataToEdit.start;
       this.taskData.title = this.taskName;
       this.taskData.description = this.taskDescription;
       this.taskData.meetingUrl = this.meetingUrl;
-      this.taskData.repeatDaily = this.repeatDaily;
-      this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
       this.taskData.repeatDaily = true;
-      this.taskData.gridId = this.arrayGridPositions;
+      this.taskData.daysOfRepeat = this.daysOfRepeat;
       console.log('soy yo');
     }
     this.taskData.id = this.dataToEdit.id;
@@ -126,41 +135,54 @@ export class ModalEditComponent implements OnInit {
     }
   }
 
+  x() {
 
-x() {
-  this.setData();
-  
-  const lastSelectedDays = Object.keys(this.selectedDays).filter(key => this.selectedDays[key]);
-  this.lastDay = lastSelectedDays[lastSelectedDays.length - 1]; 
+    const lastSelectedDays = Object.keys(this.selectedDays).filter(
+      (key) => this.selectedDays[key]
+    );
+    this.lastDay = lastSelectedDays[lastSelectedDays.length - 1];
 
-  console.log(this.lastDay);
+    console.log(lastSelectedDays);
+    this.daysOfRepeat = lastSelectedDays;
+    console.log(this.lastDay);
+    console.log(this.daysOfRepeat);
+    console.log(this.endTime);
+    this.getDayActual(this.lastDay);
 
-  this.getDayActual();
-}
+    console.log(this.taskData);
+  }
 
-getDayActual() {
+  getDayActual(lastDay: any) {
+    const currentDate = new Date();
+    let currentDay = currentDate.getDay();
+    const daysToAdd = (8 - currentDay) % 7;
+    const nextMondayDate = new Date(
+      currentDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000
+    );
 
-  const currentDate = new Date();
-  let currentDay = currentDate.getDay();
-  
-  const daysToAdd = (8 - currentDay) % 7;
-  
-  const nextMondayDate = new Date(currentDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
-  
-  const year = nextMondayDate.getFullYear();
-  const month = (nextMondayDate.getMonth() + 1).toString().padStart(2, '0');
-  const day = nextMondayDate.getDate().toString().padStart(2, '0');
-  
-  const formattedDate = `${year}-${month}-${day}`;
+    const daysOfWeek = [
+      'Lunes',
+      'Martes',
+      'Miercoles',
+      'Jueves',
+      'Viernes',
+      'Sabado',
+      'Domingo',
+    ];
+    const indexOfLastDay = daysOfWeek.indexOf(lastDay);
+    const dayDifference = indexOfLastDay;
+    const targetDate = new Date(nextMondayDate);
+    targetDate.setDate(nextMondayDate.getDate() + dayDifference);
 
-  this.endDate = formattedDate;
-  
-  this.taskData.end = this.endDate + 'T' + this.endTime + ':00';
-  console.log(this.taskData.end)
-  // this.createTask();
-}
+    const year = targetDate.getFullYear();
+    const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = targetDate.getDate().toString().padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
 
-
+    console.log(formattedDate);
+    this.taskData.end = formattedDate + 'T' + this.endTime + ':00';
+    console.log(this.taskData.end, 'end');
+  }
 
   generateEndTimeOptions() {
     this.endTimeOptions = [];
@@ -213,8 +235,16 @@ getDayActual() {
       endTimeOptions
     );
     this.arrayGridPositions = generateArrayToIDDate(gridStart, position);
-    console.log(this.arrayGridPositions);
-    this.taskData.gridId = this.arrayGridPositions;
-    console.log(this.taskData);
+    if(this.repeatDaily === true){
+      let response = generateWeekTask( this.arrayGridPositions,this.daysOfRepeat)
+      console.log(response)
+      this.taskData.gridId = response
+    }else{
+      this.taskData.gridId = this.arrayGridPositions;
+    }
+    console.log(this.taskData)
   }
+
+
+
 }

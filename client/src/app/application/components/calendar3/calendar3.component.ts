@@ -45,12 +45,6 @@ export class Calendar3Component implements OnInit {
     this.getData();
     this.loadGridData();
     this.generateWeekDates();
-    this.searchDataService
-      .getIdsForDay('T09:00:00', 'T09:30:00', 'Martes')
-      .subscribe((ids) => {
-        console.log(ids);
-        this.days = ids;
-      });
     this.dataHourToDayId();
   }
 
@@ -74,15 +68,12 @@ export class Calendar3Component implements OnInit {
         console.log(this.gridData);
         console.log(this.hours);
 
-        // Setear el id en cada grilla
         this.gridData!.forEach((dayData) => {
           dayData.hours.forEach((hour: { id: { toString: () => any } }) => {
-            // Establecer el id en cada hora
-            hour.id = hour.id.toString(); // Convertir a cadena si es necesario
+            hour.id = hour.id.toString();
           });
         });
 
-        // Llamar a dataHourToDayId después de cargar los datos de la cuadrícula
         this.dataHourToDayId();
       },
       (error) => {
@@ -170,18 +161,17 @@ export class Calendar3Component implements OnInit {
     this.showModalView = false;
   }
 
-  generateArrayToTaskUbications(id: any) { 
+  generateArrayToTaskUbications(id: any) {
     let arrayTasks = [];
     for (let i = 0; i < this.tasks.length; i++) {
       for (let j = 0; j < this.tasks[i].gridId.length; j++) {
         if (this.tasks[i].gridId[j] === id) {
-          arrayTasks.push(this.tasks[i].gridId[j]); 
+          arrayTasks.push(this.tasks[i].gridId[j]);
         }
       }
     }
-    return arrayTasks; 
-}
-
+    return arrayTasks;
+  }
 
   generateArrayForAllTasks(): void {
     this.cellTasks = this.hours.map((hour) =>
@@ -228,7 +218,7 @@ export class Calendar3Component implements OnInit {
     return this.tasks.some((task) => task.start === data);
   }
 
-  editTaskIfExists(id: any, data: any,idGrid: any) {
+  editTaskIfExists(id: any, data: any, idGrid: any) {
     console.log(id, data);
     this.dataToEdit = data;
     this.idGridNewTask = idGrid;
@@ -246,7 +236,7 @@ export class Calendar3Component implements OnInit {
       repeatDaily: data.repeatDaily,
       meetingUrl: data.meetingUrl,
       description: data.description,
-      gridId:data.gridId
+      gridId: data.gridId,
     };
 
     this.taskService.createTask2(newTask).subscribe(
@@ -266,7 +256,6 @@ export class Calendar3Component implements OnInit {
     console.log(data);
     console.log('soy el edited');
 
-
     const editTask = {
       start: data.start,
       end: data.end,
@@ -276,7 +265,7 @@ export class Calendar3Component implements OnInit {
       repeatDaily: data.repeatDaily,
       meetingUrl: data.meetingUrl,
       description: data.description,
-      gridId:data.gridId
+      gridId: data.gridId,
     };
     const id = data.id;
     this.taskService.editTask2(id, editTask).subscribe(
@@ -309,19 +298,19 @@ export class Calendar3Component implements OnInit {
   }
 
   comprobate2(id: any, task: any): boolean {
-     const data = task.gridId.filter((gridId: any) => gridId === id).length > 0;
-     return data
+    const data = task.gridId.filter((gridId: any) => gridId === id).length > 0;
+    return data;
   }
 
   noCoincideConNingunTask(id: any) {
     for (let i = 0; i < this.tasks.length; i++) {
       for (let j = 0; j < this.tasks[i].gridId.length; j++) {
         if (id === this.tasks[i].gridId[j]) {
-          return false; 
+          return false;
         }
       }
     }
-    return true; 
+    return true;
   }
 
   getTaskStatusClass(status: string): string {
@@ -363,7 +352,5 @@ export class Calendar3Component implements OnInit {
 
       this.dayHourId[dayId] = hourIds;
     });
-
-    console.log('dayHourId:', this.dayHourId);
   }
 }

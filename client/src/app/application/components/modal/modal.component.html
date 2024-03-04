@@ -36,25 +36,32 @@
         (change)="onInputChange()"
       />
       <label for="repeatDaily">Repetir tarea</label>
+      <div class="" *ngIf="repeatDaily">
+        <label for="startTime">Días:</label>
+        <div id="repeatDays" class="form-check form-check-inline inputs">
+          <div
+            *ngFor="let day of repeatDaysOptions"
+            class="form-check divsinput"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="{{ day }}"
+              [(ngModel)]="selectedDays[day]"
+            />
+            <label class="form-check-label" for="{{ day }}">{{ day }}</label>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="form-group" *ngIf="repeatDaily">
       <div class="half-width">
-        <label for="startDate">Fecha de inicio:</label>
-        <input type="date" id="startDate" [value]="startDataToInput" disabled />
-      </div>
-      <div class="half-width">
         <label for="startTime">Hora de inicio:</label>
-        <select id="startTime" [(ngModel)]="startTime">
+        <select id="startTime" [(ngModel)]="startTime" disabled>
           <option *ngFor="let option of startTimeOptions" [value]="option">
             {{ option }}
           </option>
         </select>
-      </div>
-    </div>
-    <div class="form-group" *ngIf="repeatDaily">
-      <div class="half-width">
-        <label for="endDate">Fecha de fin:</label>
-        <input type="date" id="endDate" [(ngModel)]="endDate" />
       </div>
       <div class="half-width">
         <label for="endTime">Hora Fin:</label>
@@ -67,7 +74,7 @@
     </div>
     <div class="form-group" *ngIf="!repeatDaily">
       <label for="startTime">Hora de inicio:</label>
-      <select id="startTime" [(ngModel)]="startTime">
+      <select id="startTime" [(ngModel)]="startTime" disabled>
         <option *ngFor="let option of startTimeOptions" [value]="option">
           {{ option }}
         </option>
@@ -81,7 +88,6 @@
         </option>
       </select>
     </div>
-
     <div class="buttons">
       <button (click)="createTask()">Crear Tarea</button>
       <button (click)="closeModal()">Cancelar</button>
