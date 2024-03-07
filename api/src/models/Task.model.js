@@ -29,8 +29,7 @@ const TaskSchema = new mongoose.Schema({
     type: String,
   },
   gridId: {
-    type: Array,
-    require: true,
+    type: Array
   },
   daysOfRepeat: {
     type: Array,
